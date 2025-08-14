@@ -2,11 +2,11 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-API_ID = int(os.environ.get("API_ID", ""))
-API_HASH = os.environ.get("API_HASH", "")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8312287720:AAFH0Ag1zgFjOv__HDMpgVH6SApSNHq0vmA")
+API_ID = int(os.environ.get("API_ID", "20878490"))
+API_HASH = os.environ.get("API_HASH", "ff6fd47c6ec0989b9d4a435e17f29881")
 
-OWNER_ID = int(os.environ.get("OWNER_ID", "841851780"))
+OWNER_ID = int(os.environ.get("OWNER_ID", "7661317353"))
 DB_URL = os.environ.get("DB_URL", "")
 DB_NAME = os.environ.get("DB_NAME", "MyselfNeon")
 
