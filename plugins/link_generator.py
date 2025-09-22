@@ -8,42 +8,21 @@ from helper_func import encode, get_message_id
 # Track active tasks per user
 active_tasks = {}  # user_id: "batch" or "genlink"
 
-
-# ------------------ CANCEL COMMAND ------------------
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("cancel"))
-async def cancel_task(client: Client, message: Message):
-    uid = message.from_user.id
-    if uid in active_tasks:
-        active_tasks.pop(uid, None)
-        await message.reply("<b>❌ Cancelled the current operation.</b>")
-    else:
-        await message.reply("<b>⚠️ No active process to cancel.</b>")
-
-
 # ------------------ GENLINK ------------------
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("genlink"))
 async def genlink(client: Client, message: Message):
     uid = message.from_user.id
-    active_tasks[uid] = "genlink"  # mark task active
+    active_tasks[uid] = "genlink"
 
-    await message.reply("<b>Forward a DB channel message or send its link.\nType /cancel to stop.</b>")
+    await message.reply("<b>Forward a DB channel message or send its link.</b>")
 
     while True:
         m: Message = await client.listen(uid)
 
-        # Cancel check
-        if m.text and m.text.lower().startswith("/cancel"):
-            active_tasks.pop(uid, None)
-            return await m.reply("<b>❌ Cancelled.</b>")
-
-        # Only accept forwarded messages or links
-        if not (m.forward_from_chat or (m.text and m.text.startswith("https://t.me/"))):
-            await m.reply("<b>❌ Please forward a valid DB channel message or send a proper link.</b>")
+        # Only accept forwarded messages or proper DB channel links
+        if not m.forward_from_chat and not (m.text and m.text.startswith("https://t.me/")):
+            await m.reply("<b>❌ Only forward a DB channel message or send a proper link.</b>")
             continue
-
-        # Ensure task is still active
-        if active_tasks.get(uid) != "genlink":
-            return
 
         msg_id = await get_message_id(client, m)
         if not msg_id:
@@ -55,61 +34,45 @@ async def genlink(client: Client, message: Message):
         link = f"https://t.me/{client.username}?start={base64_string}"
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🖇️ Share URL", url=f"https://telegram.me/share/url?url={link}")]])
         await m.reply(f"<b>Here is your link:</b>\n\n{link}", reply_markup=reply_markup)
+
         active_tasks.pop(uid, None)
         break
-
 
 # ------------------ BATCH ------------------
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
 async def batch(client: Client, message: Message):
     uid = message.from_user.id
-    active_tasks[uid] = "batch"  # mark task active
+    active_tasks[uid] = "batch"
 
     # First message
-    await message.reply("<b>Forward the FIRST DB channel message or send its link.\nType /cancel to stop.</b>")
-
+    await message.reply("<b>Forward the FIRST DB channel message or send its link.</b>")
     while True:
         first_msg: Message = await client.listen(uid)
 
-        if first_msg.text and first_msg.text.lower().startswith("/cancel"):
-            active_tasks.pop(uid, None)
-            return await first_msg.reply("<b>❌ Batch cancelled.</b>")
-
-        if not (first_msg.forward_from_chat or (first_msg.text and first_msg.text.startswith("https://t.me/"))):
-            await first_msg.reply("<b>❌ Please forward a valid DB channel message or send a proper link.</b>")
+        if not first_msg.forward_from_chat and not (first_msg.text and first_msg.text.startswith("https://t.me/")):
+            await first_msg.reply("<b>❌ Only forward a DB channel message or send a proper link.</b>")
             continue
-
-        if active_tasks.get(uid) != "batch":
-            return
 
         f_msg_id = await get_message_id(client, first_msg)
         if f_msg_id:
             break
         else:
-            await first_msg.reply("<b>❌ Invalid DB channel post, try again.</b>")
+            await first_msg.reply("<b>❌ This is not a valid DB channel post.</b>")
 
     # Second message
-    await first_msg.reply("<b>Forward the LAST DB channel message or send its link.\nType /cancel to stop.</b>")
-
+    await first_msg.reply("<b>Forward the LAST DB channel message or send its link.</b>")
     while True:
         second_msg: Message = await client.listen(uid)
 
-        if second_msg.text and second_msg.text.lower().startswith("/cancel"):
-            active_tasks.pop(uid, None)
-            return await second_msg.reply("<b>❌ Batch cancelled.</b>")
-
-        if not (second_msg.forward_from_chat or (second_msg.text and second_msg.text.startswith("https://t.me/"))):
-            await second_msg.reply("<b>❌ Please forward a valid DB channel message or send a proper link.</b>")
+        if not second_msg.forward_from_chat and not (second_msg.text and second_msg.text.startswith("https://t.me/")):
+            await second_msg.reply("<b>❌ Only forward a DB channel message or send a proper link.</b>")
             continue
-
-        if active_tasks.get(uid) != "batch":
-            return
 
         s_msg_id = await get_message_id(client, second_msg)
         if s_msg_id:
             break
         else:
-            await second_msg.reply("<b>❌ Invalid DB channel post, try again.</b>")
+            await second_msg.reply("<b>❌ This is not a valid DB channel post.</b>")
 
     # Generate batch link
     string = f"get-{f_msg_id * abs(client.db_channel.id)}-{s_msg_id * abs(client.db_channel.id)}"
@@ -117,6 +80,7 @@ async def batch(client: Client, message: Message):
     link = f"https://t.me/{client.username}?start={base64_string}"
     reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🖇️ Share URL", url=f"https://telegram.me/share/url?url={link}")]])
     await second_msg.reply_text(f"<b>Here is your link:</b>\n\n{link}", reply_markup=reply_markup)
+
     active_tasks.pop(uid, None)
 
 
