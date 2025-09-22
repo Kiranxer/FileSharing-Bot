@@ -1,17 +1,17 @@
 <h2 align="center">
-    <i>FileSharing-Bot</i>
+    <i>FileStore-Bot</i>
 </h2>
 
 <img src="https://files.catbox.moe/3m854m.jpg" alt="logo" target="/blank">
 
-_**Watch on Telegram as [FileSharingBot](https://t.me/neonfilesbot)**_
+_**Watch on Telegram as [FileStore-Bot](https://t.me/neonfilesbot)**_
 
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=NEON+FILE+SHARING+BOT+!!;CREATED+BY+MYSELFNEON!;A+SIMPLE+BOT+WITH+MULTI+FEATURES!&color=00FF00)
-<a href="https://github.com/MyselfNeon/FileSharing-Bot/blob/master/LICENSE"> <img src="https://img.shields.io/badge/License- GPL 3.0 license -blueviolet?style=for-the-badge" alt="License" /> </a>
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=NEON+FILE+STORE+BOT+!!;CREATED+BY+MYSELFNEON!;A+SIMPLE+BOT+WITH+MULTI+FEATURES!&color=00FF00)
+<a href="https://github.com/MyselfNeon/FileStore-Bot/blob/master/LICENSE"> <img src="https://img.shields.io/badge/License- GPL 3.0 license -blueviolet?style=for-the-badge" alt="License" /> </a>
 <a href="https://www.python.org/"> <img src="https://img.shields.io/badge/Written%20in-Python-skyblue?style=for-the-badge&logo=python" alt="Python" /> </a>
 <a href="https://pypi.org/project/Pyrogram/"> <img src="https://img.shields.io/pypi/v/pyrogram?color=white&label=pyrogram&logo=python&logoColor=blue&style=for-the-badge" /></a>
-<a href="https://github.com/Myselfneon/FileSharing-Bot"> <img src="https://img.shields.io/github/repo-size/myselfneon/FileSharing-bot?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>
-<a href="https://github.com/MyselfNeon/FileSharing-Bot"> <img src="https://img.shields.io/github/last-commit/myselfneon/FileSharing-bot?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
+<a href="https://github.com/Myselfneon/FileStore-Bot"> <img src="https://img.shields.io/github/repo-size/myselfneon/FileStore-bot?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>
+<a href="https://github.com/MyselfNeon/FileStore-Bot"> <img src="https://img.shields.io/github/last-commit/myselfneon/FileSharing-bot?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
 
 ### _Features_
 <b><i>
