@@ -102,7 +102,7 @@ async def start_command(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("😊 Aʙᴏᴜᴛ Mᴇ", callback_data = "about")
+                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ Mᴇ", callback_data = "about")
                 ]
             ]
         )
