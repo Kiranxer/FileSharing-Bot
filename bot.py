@@ -52,8 +52,8 @@ class Bot(Client):
         await super().start()
         usr_bot_me = await self.get_me()
         self.uptime = datetime.now()
-        self.username = usr_bot_me.username
-        bot_name = usr_bot_me.first_name
+        self.username = usr_bot_me.username  # store username
+        bot_mention = f"@{usr_bot_me.username}"  # ✅ Use username mention for logs
 
         # Force Sub Check
         if FORCE_SUB_CHANNEL:
@@ -84,7 +84,7 @@ class Bot(Client):
         # Bot Restart Log
         now = datetime.now(IST)
         restart_text = (
-            f"**♻️ __{bot_name} Bot Restarted__**\n\n"
+            f"**♻️ {bot_mention} Deployed**\n\n"
             f"**📅 __Date :__** __{now.strftime('%d-%b-%Y')}__\n"
             f"**⏰ __Time :__** __{now.strftime('%I:%M %p')}__\n"
             f"**🌐 __Timezone :__** __Asia/Kolkata__\n"
@@ -109,9 +109,10 @@ class Bot(Client):
 @Bot.on_message(filters.command("start") & filters.private)
 async def log_new_user(client: Bot, message: Message):
     user = message.from_user
+    bot_mention = f"@{client.username}"  # ✅ Added bot mention here
     log_text = (
         f"**#𝖭𝖾𝗐𝖴𝗌𝖾𝗋 👤**\n"
-        f"__@NeonFilesBot__\n\n"
+        f"{bot_mention}\n\n"
         f"**🆔 __User ID :__** <code>{user.id}</code>\n"
         f"**👤 __Username :__** __@{user.username if user.username else 'None'}__\n"
         f"**🖇️ __User Link :__** __{user.mention}__"
