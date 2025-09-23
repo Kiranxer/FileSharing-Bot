@@ -84,11 +84,10 @@ class Bot(Client):
         # Bot Restart Log
         now = datetime.now(IST)
         restart_text = (
-            f"**♻️ {bot_mention} Deployed**\n\n"
-            f"**📅 __Date :__** __{now.strftime('%d-%b-%Y')}__\n"
-            f"**⏰ __Time :__** __{now.strftime('%I:%M %p')}__\n"
-            f"**🌐 __Timezone :__** __Asia/Kolkata__\n"
-            f"**🉐 __Version :__** __Pyrogram {pyrogram.__version__}__"
+            f"**🤖 __Bot Deployed / Restarted__ ♻️\n"
+            f"**__{bot_mention}__**\n\n"
+            f"**- __Date :__** __{now.strftime('%d-%b-%Y')}__\n"
+            f"**- __Time :__** __{now.strftime('%I:%M %p')}__\n"
         )
         await self.send_message(LOG_CHANNEL, restart_text)
 
@@ -112,7 +111,7 @@ async def log_new_user(client: Bot, message: Message):
     bot_mention = f"@{client.username}"  # ✅ Added bot mention here
     log_text = (
         f"**#𝖭𝖾𝗐𝖴𝗌𝖾𝗋 👤**\n"
-        f"{bot_mention}\n\n"
+        f"__{bot_mention}__\n\n"
         f"**🆔 __User ID :__** <code>{user.id}</code>\n"
         f"**👤 __Username :__** __@{user.username if user.username else 'None'}__\n"
         f"**🖇️ __User Link :__** __{user.mention}__"
@@ -120,3 +119,7 @@ async def log_new_user(client: Bot, message: Message):
     await client.send_message(LOG_CHANNEL, log_text)
     await message.reply_text("👋 Hello! You started the bot ✅")
     
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles
