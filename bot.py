@@ -87,7 +87,8 @@ class Bot(Client):
             f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
             f"<i><b>- {bot_mention}</i></b> \n\n"   # <-- changed here
             f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
-            f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>"
+            f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>\n"
+            f"**- __@neonfiles__**"
         )
         await self.send_message(LOG_CHANNEL, restart_text)
 
