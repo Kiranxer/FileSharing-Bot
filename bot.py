@@ -84,10 +84,10 @@ class Bot(Client):
         # Bot Restart Log
         now = datetime.now(IST)
         restart_text = (
-            f"**🤖 __Bot Deployed / Restarted__ ♻️**"
+            f"**🤖 __Bot Deployed / Restarted__ ♻️**\n"
             f"**- __{bot_mention}__**\n\n"
             f"**- __Date :__** __{now.strftime('%d-%b-%Y')}__\n"
-            f"**- __Time :__** __{now.strftime('%I:%M %p')}__\n"
+            f"**- __Time :__** __{now.strftime('%I:%M %p')}__"
         )
         await self.send_message(LOG_CHANNEL, restart_text)
 
