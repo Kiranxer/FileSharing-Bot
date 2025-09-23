@@ -1,9 +1,15 @@
+# Use a lightweight Python image
 FROM python:3.8-slim-buster
+
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+# Install dependencies first (for better caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy project files
 COPY . .
 
-CMD python3 main.py
+# Run the app
+CMD ["python3", "main.py"]
