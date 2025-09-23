@@ -31,6 +31,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
+                        InlineKeyboardButton("🔊 Sᴜᴘᴘᴏʀᴛ", url="https://t.me/+o1s-8MppL2syYTI9"),
+                        InlineKeyboardButton("🆘 Sᴏᴜʀᴄᴇ", url="https://myselfneon.github.io/neon/")
+                    ],
+                    [
                         InlineKeyboardButton("🔒 Cʟᴏꜱᴇ", callback_data="close"),
                         InlineKeyboardButton("⬅️ Bᴀᴄᴋ", callback_data="back")
                     ]
