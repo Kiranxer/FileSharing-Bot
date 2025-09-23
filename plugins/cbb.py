@@ -3,7 +3,6 @@ from bot import Bot
 from config import OWNER_ID, START_MSG
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-
 @Bot.on_callback_query()
 async def cb_handler(client: Bot, query: CallbackQuery):
     data = query.data
@@ -32,7 +31,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 [
                     [
                         InlineKeyboardButton("🔊 Sᴜᴘᴘᴏʀᴛ", url="https://t.me/+o1s-8MppL2syYTI9"),
-                        InlineKeyboardButton("🆘 Sᴏᴜʀᴄᴇ", url="https://myselfneon.github.io/neon/")
+                        InlineKeyboardButton("🆘 Sᴏᴜʀᴄᴇ Cᴏᴅᴇ", url="https://myselfneon.github.io/neon/")
                     ],
                     [
                         InlineKeyboardButton("🔒 Cʟᴏꜱᴇ", callback_data="close"),
@@ -48,7 +47,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             [
                 [
                     InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("😊 Aʙᴏᴜᴛ Mᴇ", callback_data="about")
+                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ Mᴇ", callback_data="about")
                 ]
             ]
         )
