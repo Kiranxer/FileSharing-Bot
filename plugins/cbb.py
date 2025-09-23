@@ -31,8 +31,8 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("⬅️ Bᴀᴄᴋ", callback_data="back"),
-                        InlineKeyboardButton("🔒 Cʟᴏꜱᴇ", callback_data="close")
+                        InlineKeyboardButton("🔒 Cʟᴏꜱᴇ", callback_data="close"),
+                        InlineKeyboardButton("⬅️ Bᴀᴄᴋ", callback_data="back")
                     ]
                 ]
             ),
@@ -43,8 +43,8 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("😊 Aʙᴏᴜᴛ Mᴇ", callback_data="about"),
-                    InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles")
+                    InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
+                    InlineKeyboardButton("😊 Aʙᴏᴜᴛ Mᴇ", callback_data="about")
                 ]
             ]
         )
