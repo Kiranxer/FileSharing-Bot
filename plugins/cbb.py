@@ -25,7 +25,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 f"<b>📢 <i>Cʜᴀɴɴᴇʟ :</i></b> "
                 f"<a href='https://t.me/NeonFiles'><b><i>NᴇᴏɴFɪʟᴇs</i></b></a>\n"
                 f"<b>🧑‍💻 <i>Dᴇᴠᴇʟᴏᴘᴇʀ :</i></b> "
-                f"<a href='tg://user?id={OWNER_ID}'><b><i>NᴇᴏɴAɴᴜʀᴀɢ</i></b></a>"
+                f"<a href='tg://user?id={OWNER_ID}'><b><i>@MʏsᴇʟғNᴇᴏɴ</i></b></a>"
             ),
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
