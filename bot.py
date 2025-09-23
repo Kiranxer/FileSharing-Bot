@@ -85,7 +85,7 @@ class Bot(Client):
         now = datetime.now(IST)
         restart_text = (
             f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
-            f"<i><b>- {bot_mention}</i></b>\n\n"   # <-- changed here
+            f"<i><b>- {bot_mention}</i></b> \n\n"   # <-- changed here
             f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
             f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>"
         )
