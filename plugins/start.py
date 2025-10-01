@@ -1,161 +1,233 @@
-#Start.py
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery
-from config import OWNER_ID, F_SUB
-from Neon.db import db
-import random
+import os, asyncio, humanize, random
+from pyrogram import Client, filters, __version__
+from pyrogram.enums import ParseMode
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated
+from bot import Bot
+from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON, PROTECT_CONTENT, FILE_AUTO_DELETE
+from helper_func import subscribed, encode, decode, get_messages
+from database.database import add_user, del_user, full_userbase, present_user
 
-# Replace with your actual custom links
-MY_CUSTOM_LINKS = {
-    "Neon": "Contact Owner & Details 🍀\n\nhttps://myselfneon.github.io/neon/"
-}
+madflixofficials = FILE_AUTO_DELETE
+jishudeveloper = madflixofficials
+file_auto_delete = humanize.naturaldelta(jishudeveloper)
 
 REACTIONS = [
     "🤝", "😇", "🤗", "😍", "👍", "🎅", "😐", "🥰", "🤩",
     "😱", "🤣", "😘", "👏", "😛", "😈", "🎉", "⚡️", "🫡",
     "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁"
 ]
-# Don't add unsupported emojis because Telegram reactions have limits
 
-@Client.on_message(filters.private & filters.incoming & filters.command("start"))
-async def start(bot: Client, msg: Message):
-    # --- Reaction feature added here ---
+@Bot.on_message(filters.command('start') & filters.private & subscribed)
+async def start_command(client: Client, message: Message):
+    # --- Reaction injection ---
     try:
-        await msg.react(emoji=random.choice(REACTIONS), big=True)
+        await message.react(emoji=random.choice(REACTIONS), big=True)
     except Exception as e:
         print(f"Reaction failed: {e}")
-    # -----------------------------------
+    # --------------------------
 
-    args = msg.text.split(maxsplit=1)
-
-    # Handle deep-link parameter
-    if len(args) > 1:
-        key = args[1]
-        if key in MY_CUSTOM_LINKS:
-            await msg.reply_text(f"**__Here's Your Link__ 🖇️**\n\n**__{MY_CUSTOM_LINKS[key]}__**")
-            return
-        else:
-            await msg.reply_text(f"**__You Started me with: {key}__**")
-            return
-
-    if not await db.is_user_exist(msg.from_user.id):
-        await db.add_user(msg.from_user.id, msg.from_user.first_name)
-
-    if F_SUB:
+    id = message.from_user.id
+    if not await present_user(id):
         try:
-            await bot.get_chat_member(int(F_SUB), msg.from_user.id)
+            await add_user(id)
         except:
+            pass
+    text = message.text
+    if len(text)>7:
+        try:
+            base64_string = text.split(" ", 1)[1]
+        except:
+            return
+        string = await decode(base64_string)
+        argument = string.split("-")
+        if len(argument) == 3:
             try:
-                invite_link = await bot.create_chat_invite_link(int(F_SUB))
+                start = int(int(argument[1]) / abs(client.db_channel.id))
+                end = int(int(argument[2]) / abs(client.db_channel.id))
             except:
-                await msg.reply("**__Make Sure I'm Admin in Your Channel__**")
-                return 
-            key = InlineKeyboardMarkup(
-                [[
-                    InlineKeyboardButton("Uᴘᴅᴀᴛᴇs 🔥", url=invite_link.invite_link),
-                    InlineKeyboardButton("Tʀʏ Aɢᴀɪɴ ♻️", callback_data="chk")
-                ]]
-            ) 
-            await msg.reply_text(
-                "<b><blockquote>🚫 𝐀𝐂𝐂𝐄𝐒𝐒 𝐃𝐄𝐍𝐈𝐄𝐃 🚫</blockquote>\n<blockquote><i>Join My Update Channel To Use Me Once You’ve Joined, Click The Try Again Button To Confirm Your Subscription And Gain Access.\n\n⏰ Thank You For Staying Updated !!</blockquote></b></i>",
-                reply_markup=key
-            )
-            return 
+                return
+            if start <= end:
+                ids = range(start,end+1)
+            else:
+                ids = []
+                i = start
+                while True:
+                    ids.append(i)
+                    i -= 1
+                    if i < end:
+                        break
+        elif len(argument) == 2:
+            try:
+                ids = [int(int(argument[1]) / abs(client.db_channel.id))]
+            except:
+                return
+        temp_msg = await message.reply("<b><i>Pʟᴇᴀsᴇ Wᴀɪᴛ...⚡</i></b>")
+        try:
+            messages = await get_messages(client, ids)
+        except:
+            await message.reply_text("<b><i>Sᴏᴍᴇᴛʜɪɴɢ Wᴇɴᴛ Wʀᴏɴɢ...❌</i></b>")
+            return
+        await temp_msg.delete()
+    
+        madflix_msgs = [] # List to keep track of sent messages
 
-    me = (await bot.get_me()).mention
-    await bot.send_message(
-        chat_id=msg.chat.id,
-        text=f"""<b><i><blockquote>Yoo !! {msg.from_user.mention}</blockquote>\n<blockquote>🔑 I Am {me}\n🚀 Fast & Reliable Sessions\n🔒 Safe, Secure and Error-Free\n🧩 Your Ultimate STRING Generator !!\n\nCreated By @MyselfNeon 😎</i></b></blockquote>""",
-        reply_markup=InlineKeyboardMarkup(
+        for msg in messages:
+
+            if bool(CUSTOM_CAPTION) & bool(msg.document):
+                caption = CUSTOM_CAPTION.format(previouscaption = "" if not msg.caption else msg.caption.html, filename = msg.document.file_name)
+            else:
+                caption = "" if not msg.caption else msg.caption.html
+
+            if DISABLE_CHANNEL_BUTTON:
+                reply_markup = msg.reply_markup
+            else:
+                reply_markup = None
+
+            try:
+                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
+                # await asyncio.sleep(0.5)
+                madflix_msgs.append(madflix_msg)
+                
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
+                madflix_msgs.append(madflix_msg)
+                
+            except:
+                pass
+
+        k = await client.send_message(chat_id = message.from_user.id, text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>")
+
+        # Schedule the file deletion
+        asyncio.create_task(delete_files(madflix_msgs, client, k))
+        return
+    else:
+        reply_markup = InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton(text="⚡ Gᴇɴᴇʀᴀᴛᴇ Sᴛʀɪɴɢ Sᴇssɪᴏɴ ⚡", callback_data="generate")],
                 [
-                    InlineKeyboardButton("Uᴘᴅᴀᴛᴇ 🔥", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("Aʙᴏᴜᴛ 😎", callback_data="about_btn")
+                    InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
+                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ Mᴇ", callback_data = "about")
                 ]
             ]
         )
-    )
+        await message.reply_text(
+            text = START_MSG.format(
+                first = message.from_user.first_name,
+                last = message.from_user.last_name,
+                username = None if not message.from_user.username else '@' + message.from_user.username,
+                mention = message.from_user.mention,
+                id = message.from_user.id
+            ),
+            reply_markup = reply_markup,
+            disable_web_page_preview = True,
+            quote = True
+        )
+        return
 
-@Client.on_callback_query(filters.regex("chk"))
-async def chk(bot: Client, cb: CallbackQuery):
+@Bot.on_message(filters.command('start') & filters.private)
+async def not_joined(client: Client, message: Message):
+    # --- Reaction injection ---
     try:
-        await bot.get_chat_member(int(F_SUB), cb.from_user.id)
-    except:
-        await cb.answer(
-            "You Have Not Joined My Updates Channel. Please Join It And Then Click Try Again 🆘",
-            show_alert=True
-        )
-        return 
+        await message.react(emoji=random.choice(REACTIONS), big=True)
+    except Exception as e:
+        print(f"Reaction failed: {e}")
+    # --------------------------
 
-    me = (await bot.get_me()).mention
-    await cb.message.edit_text(
-        f"""<b><i><blockquote>Yoo !! {cb.from_user.mention}</blockquote>\n<blockquote>🔑 I Am {me}\n🚀 Fast & Reliable Sessions\n🔒 Safe, Secure and Error-Free\n🧩 Your Ultimate STRING Generator !!\n\nCreated By @MyselfNeon 😎</i></b></blockquote>""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton(text="⚡ Gᴇɴᴇʀᴀᴛᴇ Sᴛʀɪɴɢ Sᴇssɪᴏɴ ⚡", callback_data="generate")],
-                [
-                    InlineKeyboardButton("Uᴘᴅᴀᴛᴇ 🔥", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("Aʙᴏᴜᴛ 😎", callback_data="about_btn")
-                ]
-            ]
-        )
-    )
-    await cb.answer()
-
-# --- About page callback ---
-@Client.on_callback_query(filters.regex("about_btn"))
-async def about_page(bot: Client, cb: CallbackQuery):
-    me = (await bot.get_me()).mention  # <-- added dynamic mention
-
-    about_text = f"""<b><blockquote>‣ 📝 𝐌𝐘 𝐃𝐄𝐓𝐀𝐈𝐋𝐒</blockquote>
-<blockquote><i>• Mʏ Nᴀᴍᴇ : {me}
-• Mʏ Bᴇsᴛ Fʀɪᴇɴᴅ : <a href='tg://settings'>Tʜɪs Sᴡᴇᴇᴛɪᴇ ❤️</a> 
-• Dᴇᴠᴇʟᴏᴘᴇʀ : <a href='https://t.me/MyselfNeon'>@MʏsᴇʟғNᴇᴏɴ</a> 
-• Lɪʙʀᴀʀʏ : <a href='https://docs.pyrogram.org/'>Pʏʀᴏɢʀᴀᴍ</a> 
-• Lᴀɴɢᴜᴀɢᴇ : <a href='https://www.python.org/download/releases/3.0/'>Pʏᴛʜᴏɴ 𝟹</a> 
-• DᴀᴛᴀBᴀsᴇ : <a href='https://www.mongodb.com/'>Mᴏɴɢᴏ DB</a> 
-• Bᴏᴛ Sᴇʀᴠᴇʀ : <a href='https://heroku.com'>Hᴇʀᴏᴋᴜ</a> 
-• Bᴜɪʟᴅ Sᴛᴀᴛᴜs : ᴠ𝟸.𝟽.𝟷 [Sᴛᴀʙʟᴇ]</i></b></blockquote>"""
-
-    about_buttons = InlineKeyboardMarkup(
+    buttons = [
         [
-            [
-                InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ 🔊", url="https://t.me/+o1s-8MppL2syYTI9"),
-                InlineKeyboardButton("Sᴏᴜʀᴄᴇ Cᴏᴅᴇ 🚀", url="https://t.me/NeonSessionBot?start=Neon")
-            ],
-            [
-                InlineKeyboardButton("Cʟᴏsᴇ ❌", callback_data="close"),
-                InlineKeyboardButton("⬅️ Bᴀᴄᴋ", callback_data="back_to_start")
-            ]
+            InlineKeyboardButton(text="Jᴏɪɴ Cʜᴀɴɴᴇʟ", url=client.invitelink)
         ]
-    )
-
-    await cb.message.edit_text(
-        about_text,
-        reply_markup=about_buttons,
-        disable_web_page_preview=True  # <-- web preview disabled
-    )
-    await cb.answer()
-
-@Client.on_callback_query(filters.regex("back_to_start"))
-async def back_to_start(bot: Client, cb: CallbackQuery):
-    me = (await bot.get_me()).mention
-    await cb.message.edit_text(
-        f"""<b><i><blockquote>Yoo !! {cb.from_user.mention}</blockquote>\n<blockquote>🔑 I Am {me}\n🚀 Fast & Reliable Sessions\n🔒 Safe, Secure and Error-Free\n🧩 Your Ultimate STRING Generator !!\n\nCreated By @MyselfNeon 😎</i></b></blockquote>""",
-        reply_markup=InlineKeyboardMarkup(
+    ]
+    try:
+        buttons.append(
             [
-                [InlineKeyboardButton(text="⚡ Gᴇɴᴇʀᴀᴛᴇ Sᴛʀɪɴɢ Sᴇssɪᴏɴ ⚡", callback_data="generate")],
-                [
-                    InlineKeyboardButton("Uᴘᴅᴀᴛᴇ 🔥", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("Aʙᴏᴜᴛ 😎", callback_data="about_btn")
-                ]
+                InlineKeyboardButton(
+                    text = 'Tʀʏ Aɢᴀɪɴ',
+                    url = f"https://t.me/{client.username}?start={message.command[1]}"
+                )
             ]
         )
-    )
-    await cb.answer()
+    except IndexError:
+        pass
 
-@Client.on_callback_query(filters.regex("close"))
-async def close_page(bot: Client, cb: CallbackQuery):
-    await cb.message.delete()
-    await cb.answer()
+    await message.reply(
+        text = FORCE_MSG.format(
+                first = message.from_user.first_name,
+                last = message.from_user.last_name,
+                username = None if not message.from_user.username else '@' + message.from_user.username,
+                mention = message.from_user.mention,
+                id = message.from_user.id
+            ),
+        reply_markup = InlineKeyboardMarkup(buttons),
+        quote = True,
+        disable_web_page_preview = True
+    )
+
+@Bot.on_message(filters.command('users') & filters.private & filters.user(ADMINS))
+async def get_users(client: Bot, message: Message):
+    msg = await client.send_message(chat_id=message.chat.id, text=f"Pʀᴏᴄᴇssɪɴɢ...☢️")
+    users = await full_userbase()
+    await msg.edit(f"{len(users)} <b><i>Usᴇʀs Aʀᴇ Usɪɴɢ Tʜɪs Bᴏᴛ</i></b>")
+
+@Bot.on_message(filters.private & filters.command('broadcast') & filters.user(ADMINS))
+async def send_text(client: Bot, message: Message):
+    if message.reply_to_message:
+        query = await full_userbase()
+        broadcast_msg = message.reply_to_message
+        total = 0
+        successful = 0
+        blocked = 0
+        deleted = 0
+        unsuccessful = 0
+        
+        pls_wait = await message.reply("<i><b>📢 Bʀᴏᴀᴅᴄᴀsᴛɪɴɢ Mᴇssᴀɢᴇs... \nTʜɪs Wɪʟʟ Tᴀᴋᴇ Sᴏᴍᴇ Tɪᴍᴇ</b></i>")
+        for chat_id in query:
+            try:
+                await broadcast_msg.copy(chat_id)
+                successful += 1
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+                await broadcast_msg.copy(chat_id)
+                successful += 1
+            except UserIsBlocked:
+                await del_user(chat_id)
+                blocked += 1
+            except InputUserDeactivated:
+                await del_user(chat_id)
+                deleted += 1
+            except:
+                unsuccessful += 1
+                pass
+            total += 1
+        
+        status = f"""<b><u><i>Bʀᴏᴀᴅᴄᴀsᴛ Cᴏᴍᴘʟᴇᴛᴇᴅ</i></u></b>
+
+<b><i>Tᴏᴛᴀʟ ᴜsᴇʀs</i> : <code>{total}</code></b>
+<b><i>Sᴜᴄᴄᴇssғᴜʟ</i> : <code>{successful}</code></b>
+<b><i>Bʟᴏᴄᴋᴇᴅ Usᴇʀs</i> : <code>{blocked}</code></b>
+<b><i>Dᴇʟᴇᴛᴇᴅ Aᴄᴄᴏᴜɴᴛs</i> : <code>{deleted}</code></b>
+<b><i>Uɴsᴜᴄᴄᴇssғᴜʟ</i> : <code>{unsuccessful}</code></b>"""
+        
+        return await pls_wait.edit(status)
+
+    else:
+        msg = await message.reply(f"<b><i>Usᴇ Tʜɪs Cᴏᴍᴍᴀɴᴅ As ᴀ Rᴇᴘʟʏ ᴛᴏ Aɴʏ Tᴇʟᴇɢʀᴀᴍ Mᴇssᴀɢᴇ Wɪᴛʜoᴜᴛ Aɴʏ Sᴘᴀᴄᴇs.</i></b>")
+        await asyncio.sleep(8)
+        await msg.delete()
+
+# Function to handle file deletion
+async def delete_files(messages, client, k):
+    await asyncio.sleep(FILE_AUTO_DELETE)  # Wait for the duration specified in config.py
+    for msg in messages:
+        try:
+            await client.delete_messages(chat_id=msg.chat.id, message_ids=[msg.id])
+        except Exception as e:
+            print(f"Tʜᴇ Aᴛᴛᴇᴍᴘᴛ ᴛᴏ Dᴇʟᴇᴛᴇ Tʜᴇ Mᴇᴅɪᴀ {msg.id} Wᴀs Uɴsᴜᴄᴄᴇssғᴜʟ: {e}")
+    # await client.send_message(messages[0].chat.id, "Your Video / File Is Successfully Deleted ✅")
+    await k.edit_text("<b><i>Yᴏᴜʀ Vɪᴅᴇᴏ / Fɪʟᴇ ɪs Sᴜᴄᴄᴇssғᴜʟʟʏ Dᴇʟᴇᴛᴇᴅ ✅</i></b>")
+
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles
