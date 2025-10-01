@@ -1,4 +1,4 @@
-import os, asyncio, humanize, random
+import os, asyncio, humanize
 from pyrogram import Client, filters, __version__
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
@@ -12,21 +12,8 @@ madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
 file_auto_delete = humanize.naturaldelta(jishudeveloper)
 
-REACTIONS = [
-    "🤝", "😇", "🤗", "😍", "👍", "🎅", "😐", "🥰", "🤩",
-    "😱", "🤣", "😘", "👏", "😛", "😈", "🎉", "⚡️", "🫡",
-    "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁"
-]
-
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
-    # --- Reaction injection ---
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except Exception as e:
-        print(f"Reaction failed: {e}")
-    # --------------------------
-
     id = message.from_user.id
     if not await present_user(id):
         try:
@@ -101,6 +88,14 @@ async def start_command(client: Client, message: Message):
 
         # Schedule the file deletion
         asyncio.create_task(delete_files(madflix_msgs, client, k))
+        
+        # for madflix_msg in madflix_msgs: 
+            # try:
+                # await madflix_msg.delete()
+                # await k.edit_text("Your Video / File Is Successfully Deleted ✅") 
+            # except:    
+                # pass 
+
         return
     else:
         reply_markup = InlineKeyboardMarkup(
@@ -127,13 +122,6 @@ async def start_command(client: Client, message: Message):
 
 @Bot.on_message(filters.command('start') & filters.private)
 async def not_joined(client: Client, message: Message):
-    # --- Reaction injection ---
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except Exception as e:
-        print(f"Reaction failed: {e}")
-    # --------------------------
-
     buttons = [
         [
             InlineKeyboardButton(text="Jᴏɪɴ Cʜᴀɴɴᴇʟ", url=client.invitelink)
