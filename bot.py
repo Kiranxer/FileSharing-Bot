@@ -14,9 +14,6 @@ from config import (
 )
 import pyrogram.utils
 import pyrogram  # ✅ For version info
-import importlib.util
-from pathlib import Path
-import logging
 
 pyrogram.utils.MIN_CHANNEL_ID = -1009999999999
 
@@ -38,26 +35,6 @@ def get_all_plugins(path="plugins"):
                 module_path = rel_path.replace(os.sep, ".")[:-3]  # remove .py
                 plugins_dict[module_path] = {}
     return plugins_dict
-
-
-def load_all_plugins(root="plugins"):
-    """
-    Recursively load all .py plugins from plugins folder and subfolders.
-    Skips __init__.py.
-    """
-    for path in Path(root).rglob("*.py"):
-        if path.name == "__init__.py":
-            continue
-        try:
-            plugin_name = path.stem
-            import_path = ".".join(path.with_suffix("").parts)
-            spec = importlib.util.spec_from_file_location(import_path, path)
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            sys.modules[import_path] = mod
-            logging.info(f"✨ Loaded plugin => {plugin_name}")
-        except Exception as e:
-            logging.error(f"❌ Failed to load plugin {plugin_name}: {e}")
 
 
 class Bot(Client):
@@ -108,7 +85,7 @@ class Bot(Client):
         now = datetime.now(IST)
         restart_text = (
             f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
-            f"<i><b>- {bot_mention}</i></b> \n\n"
+            f"<i><b>- {bot_mention}</i></b> \n\n"   # <-- changed here
             f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
             f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>\n"
             f"**- __@neonfiles__**"
@@ -116,10 +93,6 @@ class Bot(Client):
         await self.send_message(LOG_CHANNEL, restart_text)
 
         self.set_parse_mode(ParseMode.HTML)
-
-        # ------------------- Load all plugins dynamically -------------------
-        load_all_plugins("plugins")
-        # ---------------------------------------------------------------------
 
         # Web response
         app = web.AppRunner(await web_server())
