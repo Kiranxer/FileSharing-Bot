@@ -212,10 +212,32 @@ async def delete_files(messages, client, k):
 # ------------------ New /anime command ------------------
 @Bot.on_message(filters.command('anime') & filters.private)
 async def send_anime_texts(client: Client, message: Message):
-    for txt in script.ANIME_TXT:
+    max_chars_per_page = 1000  # Max characters per page
+    pages = []
+    current_page = []
+
+    for entry in script.ANIME_TXT:
+        # Convert plain text to clickable HTML link
+        if " - " in entry:
+            text_part, url_part = entry.split(" - ", 1)
+            entry_html = f"<a href='{url_part}'>{text_part}</a>"
+        else:
+            entry_html = entry
+
+        # Check if adding this link would exceed page limit
+        if sum(len(l) + 1 for l in current_page) + len(entry_html) > max_chars_per_page:
+            pages.append(current_page)
+            current_page = []
+        current_page.append(entry_html)
+    
+    if current_page:
+        pages.append(current_page)
+
+    # Send all pages
+    for idx, page_links in enumerate(pages, start=1):
+        page_text = f"<b>Anime Page {idx:02}</b>\n" + "\n".join(page_links)
         await message.reply_text(
-            text=txt,
+            text=page_text,
             parse_mode=ParseMode.HTML,
-            disable_web_page_preview=False
-            )
-        
+            disable_web_page_preview=True
+        )
