@@ -225,6 +225,9 @@ async def send_anime_texts(client: Client, message: Message):
         else:
             entry_html = entry
 
+        # Wrap everything in bold
+        entry_html = f"<b><i>{entry_html}</i></b>"
+
         # Check if adding this link would exceed page limit
         if sum(len(l) + 1 for l in current_page) + len(entry_html) > max_chars_per_page:
             pages.append(current_page)
