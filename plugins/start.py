@@ -9,8 +9,8 @@ from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL
 from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
-# Import Neon.py
-from Neon import script
+# Import NeonAn.py
+from NeonAn import script
 
 madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
