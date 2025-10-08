@@ -1,3 +1,4 @@
+#Start.py
 import os, asyncio, humanize
 from pyrogram import Client, filters, __version__
 from pyrogram.enums import ParseMode
@@ -235,9 +236,13 @@ async def send_anime_texts(client: Client, message: Message):
 
     # Send all pages
     for idx, page_links in enumerate(pages, start=1):
-        page_text = f"<b>Anime Page {idx:02}</b>\n" + "\n".join(page_links)
+        page_text = f"<b><i>😎 NeonAnime Page {idx:02}</i></b>\n\n" + "\n".join(page_links)
         await message.reply_text(
             text=page_text,
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
         )
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles
