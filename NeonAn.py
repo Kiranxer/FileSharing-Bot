@@ -1,7 +1,7 @@
 class script(object):
     # Plain text with names and URLs
     NEON_TXT = [
-    "📌 Absolute Duo",
+    "📌 Absolute Duo - https://t.me/NeonFilesBot?start=Z2V0LTg0MjA4OTc5MDAwMjQ0LTk3MjQxMzIwOTg4Mzc3",
     "📌 A Returner's Magic be Special",
     "📌 Akashic Records of Magical",
     "📌 Alya Sometimes hides her",
