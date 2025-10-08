@@ -1,3 +1,4 @@
+#Channel_Post.py
 import asyncio
 from pyrogram import filters, Client
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
@@ -6,32 +7,18 @@ from bot import Bot
 from config import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON
 from helper_func import encode
 
-@Bot.on_message(filters.private & filters.user(ADMINS) & ~filters.command(['start','users','broadcast','batch','genlink','stats']))
-async def channel_post(client: Client, message: Message):
-    reply_text = await message.reply_text("<b><i>Pʟᴇᴀsᴇ Wᴀɪᴛ...!</i></b>", quote=True)
-    try:
-        post_message = await message.copy(chat_id=client.db_channel.id, disable_notification=True)
-    except FloodWait as e:
-        await asyncio.sleep(e.x)
-        post_message = await message.copy(chat_id=client.db_channel.id, disable_notification=True)
-    except Exception as e:
-        print(e)
-        await reply_text.edit_text("<b><i>Sᴏᴍᴇᴛʜɪɴɢ Wᴇɴᴛ Wʀᴏɴɢ..!</i></b>")
-        return
 
-    converted_id = post_message.id * abs(client.db_channel.id)
-    string = f"get-{converted_id}"
-    base64_string = await encode(string)
-    link = f"https://t.me/{client.username}?start={base64_string}"
-
-    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🖇️ Sʜᴀʀᴇ URL", url=f'https://telegram.me/share/url?url={link}')]])
-
-    await reply_text.edit(f"<b><i>Hᴇʀᴇ Is Yᴏᴜʀ Lɪɴᴋ 🔗</i></b>\n\n{link}", reply_markup=reply_markup, disable_web_page_preview=True)
-
-    if not DISABLE_CHANNEL_BUTTON:
-        await post_message.edit_reply_markup(reply_markup)
+# 🚫 No auto link generation — handle all non-command messages here
+@Bot.on_message(filters.private & ~filters.command(['start', 'batch', 'genlink']))
+async def handle_non_command_messages(client: Client, message: Message):
+    # If message is from an admin
+    if message.from_user.id in ADMINS:
+        await message.reply_text("Hello Senpai !!", quote=True)
+    else:
+        await message.reply_text("Baka !! You are not my senpai", quote=True)
 
 
+# ✅ Keep this to update buttons in the DB channel posts
 @Bot.on_message(filters.channel & filters.incoming & filters.chat(CHANNEL_ID))
 async def new_post(client: Client, message: Message):
 
@@ -42,13 +29,22 @@ async def new_post(client: Client, message: Message):
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string}"
-    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🖇️ Sʜᴀʀᴇ URL", url=f'https://telegram.me/share/url?url={link}')]])
+    reply_markup = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("🖇️ Sʜᴀʀᴇ URL", url=f'https://telegram.me/share/url?url={link}')]]
+    )
+
     try:
         await message.edit_reply_markup(reply_markup)
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        try:
+            await message.edit_reply_markup(reply_markup)
+        except Exception as e:
+            print(e)
+            pass
     except Exception as e:
         print(e)
         pass
-
 
 # MyselfNeon
 # Don't Remove Credit 🥺
