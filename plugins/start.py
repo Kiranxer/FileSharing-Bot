@@ -8,6 +8,9 @@ from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL
 from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
+# Import Script.py
+from Script import script
+
 madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
 file_auto_delete = humanize.naturaldelta(jishudeveloper)
@@ -88,14 +91,6 @@ async def start_command(client: Client, message: Message):
 
         # Schedule the file deletion
         asyncio.create_task(delete_files(madflix_msgs, client, k))
-        
-        # for madflix_msg in madflix_msgs: 
-            # try:
-                # await madflix_msg.delete()
-                # await k.edit_text("Your Video / File Is Successfully Deleted ✅") 
-            # except:    
-                # pass 
-
         return
     else:
         reply_markup = InlineKeyboardMarkup(
@@ -212,10 +207,15 @@ async def delete_files(messages, client, k):
             await client.delete_messages(chat_id=msg.chat.id, message_ids=[msg.id])
         except Exception as e:
             print(f"Tʜᴇ Aᴛᴛᴇᴍᴘᴛ ᴛᴏ Dᴇʟᴇᴛᴇ Tʜᴇ Mᴇᴅɪᴀ {msg.id} Wᴀs Uɴsᴜᴄᴄᴇssғᴜʟ: {e}")
-    # await client.send_message(messages[0].chat.id, "Your Video / File Is Successfully Deleted ✅")
     await k.edit_text("<b><i>Yᴏᴜʀ Vɪᴅᴇᴏ / Fɪʟᴇ ɪs Sᴜᴄᴄᴇssғᴜʟʟʏ Dᴇʟᴇᴛᴇᴅ ✅</i></b>")
 
-
-# MyselfNeon
-# Don't Remove Credit 🥺
-# Telegram Channel @NeonFiles
+# ------------------ New /anime command ------------------
+@Bot.on_message(filters.command('anime') & filters.private)
+async def send_anime_texts(client: Client, message: Message):
+    for txt in script.ANIME_TXT:
+        await message.reply_text(
+            text=txt,
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=False
+            )
+        
