@@ -228,23 +228,29 @@ async def send_anime_texts(client: Client, message: Message):
         # Wrap everything in bold
         entry_html = f"<b><i>{entry_html}</i></b>"
 
-        # Check if adding this link would exceed page limit
+        # Check if adding this entry exceeds page limit
         if sum(len(l) + 1 for l in current_page) + len(entry_html) > max_chars_per_page:
             pages.append(current_page)
             current_page = []
         current_page.append(entry_html)
-    
+
     if current_page:
         pages.append(current_page)
 
     # Send all pages
-    for idx, page_links in enumerate(pages, start=1):
-        page_text = f"<b><i>😎 NeonAnime Page {idx:02}</i></b>\n\n" + "\n".join(page_links)
+    for idx, page_links in enumerate(pages):
+        if idx == 0:
+            # First page header
+            page_text = "<b><i>😎 Total Animes at @NeonFiles.</i></b>\n\n" + "\n".join(page_links)
+        else:
+            # Subsequent pages just continue
+            page_text = "\n".join(page_links)
+
         await message.reply_text(
             text=page_text,
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
-        )
+        )       
 
 # MyselfNeon
 # Don't Remove Credit 🥺
