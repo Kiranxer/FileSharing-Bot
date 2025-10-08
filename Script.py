@@ -1,6 +1,6 @@
 class script(object):
-    # List of text + links
+    # Plain text with names and URLs
     ANIME_TXT = [
-        "😕 <a href='https://t.me/MyselfNeon'>NᴇᴏɴAɴᴜʀᴀɢ</a>",
-        "😕 <a href='https://t.me/NeonFilesBot'>NᴇᴏɴAɴᴜʀᴀɢ2</a>"
+        "😕 NeonAnurag - https://t.me/MyselfNeon",
+        "😕 NeonAnurag2 - https://t.me/NeonFilesBot"
     ]
