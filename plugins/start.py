@@ -236,7 +236,7 @@ async def send_anime_texts(client: Client, message: Message):
 
     # Send all pages
     for idx, page_links in enumerate(pages, start=1):
-        page_text = f"<b><i>😎 NeonAnime Page {idx:02}</i></b>\n\n" + "\n".join(page_links)
+        page_text = f"<b><i>😎 NeonAnime Page {idx:02}</i></b>\n" + "\n".join(page_links)
         await message.reply_text(
             text=page_text,
             parse_mode=ParseMode.HTML,
