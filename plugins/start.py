@@ -8,8 +8,8 @@ from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL
 from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
-# Import Script.py
-from Script import script
+# Import MyselfNeon.py
+from MyselfNeon import script
 
 madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
@@ -216,7 +216,7 @@ async def send_anime_texts(client: Client, message: Message):
     pages = []
     current_page = []
 
-    for entry in script.ANIME_TXT:
+    for entry in script.NEON_TXT:
         # Convert plain text to clickable HTML link
         if " - " in entry:
             text_part, url_part = entry.split(" - ", 1)
