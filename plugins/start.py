@@ -241,7 +241,7 @@ async def send_anime_texts(client: Client, message: Message):
     for idx, page_links in enumerate(pages):
         if idx == 0:
             # First page header
-            page_text = "<b><i>😎 Total Animes at @NeonFiles.</i></b>\n\n" + "\n".join(page_links)
+            page_text = "<b><i>😎 Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon</i></b>\n\n" + "\n".join(page_links)
         else:
             # Subsequent pages just continue
             page_text = "\n".join(page_links)
