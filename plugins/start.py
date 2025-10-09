@@ -213,7 +213,7 @@ async def delete_files(messages, client, k):
 # ------------------ New /anime command ------------------
 @Bot.on_message(filters.command('anime') & filters.private)
 async def send_anime_texts(client: Client, message: Message):
-    max_chars_per_page = 1000
+    max_chars_per_page = 1000  # Max characters per page
     pages = []
     current_page = []
 
@@ -221,13 +221,14 @@ async def send_anime_texts(client: Client, message: Message):
         # Convert plain text to clickable HTML link
         if " - " in entry:
             text_part, url_part = entry.split(" - ", 1)
-            entry_html = f"📌&nbsp;&nbsp;<a href='{url_part}'>{text_part}</a>"
+            entry_html = f"<a href='{url_part}'>{text_part}</a>"
         else:
-            entry_html = f"📌&nbsp;&nbsp;{entry}"
+            entry_html = entry
 
-        # Wrap in italics + bold for consistency
+        # Wrap everything in bold italics
         entry_html = f"<b><i>{entry_html}</i></b>"
 
+        # Check if adding this entry exceeds page limit
         if sum(len(l) + 1 for l in current_page) + len(entry_html) > max_chars_per_page:
             pages.append(current_page)
             current_page = []
@@ -236,16 +237,15 @@ async def send_anime_texts(client: Client, message: Message):
     if current_page:
         pages.append(current_page)
 
-    sent_messages = []
+    sent_messages = []  # store all sent message objects
 
+    # Send all pages
     for idx, page_links in enumerate(pages):
         if idx == 0:
-            page_text = (
-                "<b><i>😎 Total Animes at @NeonFiles.\n"
-                "❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n" +
-                "\n".join(page_links)
-            )
+            # First page header
+            page_text = "<b><i>😎 Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n" + "\n".join(page_links)
         else:
+            # Subsequent pages just continue
             page_text = "\n".join(page_links)
 
         sent_msg = await message.reply_text(
@@ -255,11 +255,12 @@ async def send_anime_texts(client: Client, message: Message):
         )
         sent_messages.append(sent_msg)
 
+    # Auto-delete after 5 minutes (300 seconds)
     await asyncio.sleep(300)
     try:
-        await message.delete()
+        await message.delete()  # delete user command
         for msg in sent_messages:
-            await msg.delete()
+            await msg.delete()  # delete all sent pages
     except Exception as e:
         print(f"**__Auto-Delete Failed:** {e}__")
 
