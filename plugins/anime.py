@@ -1,13 +1,35 @@
 # anime.py
 import asyncio
+import random
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message
 from bot import Bot
 from neonfiles import script
 
+# -------------------
+# Supported Telegram Reactions
+# -------------------
+REACTIONS = [
+    "🤝", "😇", "🤗", "😍", "👍", "🎅", "😐", "🥰", "🤩",
+    "😱", "🤣", "😘", "👏", "😛", "😈", "🎉", "⚡️", "🫡",
+    "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁"
+]
+
+# -------------------
+# /anime Command with Reaction + Auto Delete
+# -------------------
 @Bot.on_message(filters.command('anime') & filters.private)
 async def send_anime_texts(client: Client, message: Message):
+    # 💫 React randomly when command is used
+    try:
+        await message.react(
+            emoji=random.choice(REACTIONS),
+            big=True
+        )
+    except Exception as e:
+        print(f"Reaction failed: {e}")
+
     max_lines_per_page = 40
     max_chars_per_page = 3500
     pages = []
@@ -50,7 +72,7 @@ async def send_anime_texts(client: Client, message: Message):
         )
         sent_messages.append(sent_msg)
 
-    # Auto-delete after 5 minutes
+    # 🕒 Auto-delete after 5 minutes
     await asyncio.sleep(300)
     try:
         for msg in sent_messages:
