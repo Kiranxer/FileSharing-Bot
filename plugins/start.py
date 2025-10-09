@@ -225,7 +225,7 @@ async def send_anime_texts(client: Client, message: Message):
         else:
             entry_html = entry
 
-        # Wrap everything in bold
+        # Wrap everything in bold italics
         entry_html = f"<b><i>{entry_html}</i></b>"
 
         # Check if adding this entry exceeds page limit
@@ -237,20 +237,33 @@ async def send_anime_texts(client: Client, message: Message):
     if current_page:
         pages.append(current_page)
 
+    sent_messages = []  # store all sent message objects
+
     # Send all pages
     for idx, page_links in enumerate(pages):
         if idx == 0:
             # First page header
-            page_text = "<b><i>😎 Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon</i></b>\n\n" + "\n".join(page_links)
+            page_text = "<b><i>😎 Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n" + "\n".join(page_links)
         else:
             # Subsequent pages just continue
             page_text = "\n".join(page_links)
 
-        await message.reply_text(
+        sent_msg = await message.reply_text(
             text=page_text,
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
-        )       
+        )
+        sent_messages.append(sent_msg)
+
+    # Auto-delete after 5 minutes (300 seconds)
+    await asyncio.sleep(300)
+    try:
+        await message.delete()  # delete user command
+        for msg in sent_messages:
+            await msg.delete()  # delete all sent pages
+    except Exception as e:
+        print(f"**__Auto-Delete Failed:** {e}__")
+        
 
 # MyselfNeon
 # Don't Remove Credit 🥺
