@@ -213,8 +213,8 @@ async def delete_files(messages, client, k):
 # ------------------ New /anime command ------------------
 @Bot.on_message(filters.command('anime') & filters.private)
 async def send_anime_texts(client: Client, message: Message):
-    max_lines_per_page = 37  # Show up to 45 entries per page
-    max_chars_per_page = 4000  # Hard safety limit to prevent Telegram overflow
+    max_lines_per_page = 40  # Show up to 45 entries per page
+    max_chars_per_page = 3500  # Hard safety limit to prevent Telegram overflow
     pages = []
     current_page = []
 
