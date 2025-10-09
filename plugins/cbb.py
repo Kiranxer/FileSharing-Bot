@@ -1,3 +1,4 @@
+# Cbb.py
 from pyrogram import __version__
 from bot import Bot
 from config import OWNER_ID, START_MSG
