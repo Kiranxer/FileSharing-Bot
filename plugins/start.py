@@ -10,7 +10,7 @@ from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
 # Import NeonFiles.py
-from NeonFiles import script
+from neonfiles import script
 
 madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
