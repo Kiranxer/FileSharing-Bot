@@ -40,7 +40,7 @@ class script(object):
     "📌 Dead Mount DeathPlay",
     "📌 Demon King Daimao",
     "📌 Demon King Daimao Specials",
-    "📌 Demon Slayer S1",
+    "📌 Demon Slayer S1 - https://t.me/NeonFilesBot?start=Z2V0LTEzNzY0MTU4MTE1MTU4OTMtMTQwMzQ4Mjk4MzMzNzQwMA",
     "📌 Demon Slayer Movie 01",
     "📌 Demon Slayer S2 Part 01",
     "📌 Demon Slayer S2 Part 02",
