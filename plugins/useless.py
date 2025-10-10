@@ -16,8 +16,8 @@ async def show_uptime(bot: Bot, message: Message):
     start_time = time.time()
     temp_msg = await message.reply_text("**⏱️ Checking system status...**")
 
-    # Wait for 1 second before editing the message
-    await asyncio.sleep(1)
+    # Wait for 2 second before editing the message
+    await asyncio.sleep(2)
 
     end_time = time.time()
     ping_ms = (end_time - start_time) * 1000
