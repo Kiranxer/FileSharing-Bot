@@ -12,7 +12,7 @@ async def batch(client: Client, message: Message):
             first_message = await client.ask(
                 text="<b><i>Fᴏʀᴡᴀʀᴅ Tʜᴇ Fɪʀsᴛ Mᴇssᴀɢᴇ Fʀᴏᴍ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\n\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ</i></b>",
                 chat_id=message.from_user.id,
-                filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+                filters=((filters.forwarded | (filters.text & ~filters.forwarded)) & ~filters.command("cancel")),
                 timeout=60
             )
         except:
@@ -32,7 +32,7 @@ async def batch(client: Client, message: Message):
             second_message = await client.ask(
                 text="<b><i>Fᴏʀᴡᴀʀᴅ Tʜᴇ Lᴀsᴛ Mᴇssᴀɢᴇ Fʀᴏᴍ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\n\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ</i></b>",
                 chat_id=message.from_user.id,
-                filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+                filters=((filters.forwarded | (filters.text & ~filters.forwarded)) & ~filters.command("cancel")),
                 timeout=60
             )
         except:
@@ -67,7 +67,7 @@ async def link_generator(client: Client, message: Message):
             channel_message = await client.ask(
                 text="<b><i>Fᴏʀᴡᴀʀᴅ Mᴇssᴀɢᴇ Fʀᴏᴍ Tʜᴇ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\n\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ</i></b>",
                 chat_id=message.from_user.id,
-                filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+                filters=((filters.forwarded | (filters.text & ~filters.forwarded)) & ~filters.command("cancel")),
                 timeout=60
             )
         except:
