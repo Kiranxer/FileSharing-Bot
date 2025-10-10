@@ -4,8 +4,12 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from bot import Bot
 from config import ADMINS
 from helper_func import encode, get_message_id
+import asyncio
 
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('batch'))
+# ================== Task tracking ================== #
+ACTIVE_TASKS = {}
+
+# ================== Batch Command ================== #
 async def batch(client: Client, message: Message):
     while True:
         try:
@@ -59,8 +63,7 @@ async def batch(client: Client, message: Message):
         reply_markup=reply_markup
     )
 
-
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('genlink'))
+# ================== Genlink Command ================== #
 async def link_generator(client: Client, message: Message):
     while True:
         try:
@@ -93,13 +96,7 @@ async def link_generator(client: Client, message: Message):
         reply_markup=reply_markup
     )
 
-# ================== /cancel command ================== #
-
-import asyncio
-
-# Track running genlink or batch tasks
-ACTIVE_TASKS = {}
-
+# ================== Cancel Command ================== #
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("cancel"))
 async def cancel_process(client: Client, message: Message):
     user_id = message.from_user.id
@@ -111,9 +108,12 @@ async def cancel_process(client: Client, message: Message):
     else:
         await message.reply_text("<b><i>⚠️ Nᴏ Oɴɢᴏɪɴɢ Pʀᴏᴄᴇss Tᴏ Cᴀɴᴄᴇʟ.</i></b>")
 
-async def run_with_cancel(client, message, coro_func):
+# ================== Wrappers for cancellable commands ================== #
+@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('genlink'))
+async def handle_genlink(client: Client, message: Message):
     user_id = message.from_user.id
-    task = asyncio.create_task(coro_func(client, message))
+    # Register task immediately before running generator
+    task = asyncio.create_task(link_generator(client, message))
     ACTIVE_TASKS[user_id] = task
     try:
         await task
@@ -122,14 +122,18 @@ async def run_with_cancel(client, message, coro_func):
     finally:
         ACTIVE_TASKS.pop(user_id, None)
 
-# Wrapping commands so they can be cancelled
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('genlink'))
-async def handle_genlink(client: Client, message: Message):
-    await run_with_cancel(client, message, link_generator)
-
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('batch'))
 async def handle_batch(client: Client, message: Message):
-    await run_with_cancel(client, message, batch)
+    user_id = message.from_user.id
+    # Register task immediately before running batch
+    task = asyncio.create_task(batch(client, message))
+    ACTIVE_TASKS[user_id] = task
+    try:
+        await task
+    except asyncio.CancelledError:
+        pass
+    finally:
+        ACTIVE_TASKS.pop(user_id, None)
 
 # MyselfNeon
 # Don't Remove Credit 🥺
