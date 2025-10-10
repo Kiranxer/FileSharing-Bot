@@ -28,8 +28,8 @@ async def show_uptime(bot: Bot, message: Message):
     text = f"""
 <b><i>🏓 System Status !!</i></b>
 
-<b>⏱️ Ping:</b> <code>{ping_ms:.2f} ms</code>
-<b>⏳ Uptime:</b> <code>{uptime_str}</code>
+<b><i>⏱️ Ping:</i></b> <code>{ping_ms:.2f} ms</code>
+<b><i>⏳ Uptime:</i></b> <code>{uptime_str}</code>
 
 <b><i>🍕 System Stable and Running Smoothly</i></b>
 <b><i>@NeonFiles</i></b>
