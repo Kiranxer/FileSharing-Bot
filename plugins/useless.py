@@ -1,4 +1,4 @@
-import time
+import time, asyncio
 from datetime import datetime
 from pyrogram import filters
 from pyrogram.types import Message
@@ -12,11 +12,14 @@ from helper_func import get_readable_time
 # ===========================
 @Bot.on_message(filters.command("uptime"))
 async def show_uptime(bot: Bot, message: Message):
-    """Show bot's ping and uptime in a simple format"""
+    """Show bot's ping and uptime in a simple, realistic format"""
     start_time = time.time()
     temp_msg = await message.reply_text("**⏱️ Checking system status...**")
-    end_time = time.time()
 
+    # Wait for 1 second before editing the message
+    await asyncio.sleep(1)
+
+    end_time = time.time()
     ping_ms = (end_time - start_time) * 1000
     now = datetime.now()
     delta = now - bot.uptime
