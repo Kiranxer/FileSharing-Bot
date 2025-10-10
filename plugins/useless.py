@@ -1,3 +1,4 @@
+#Uptime+Ping.py
 import time, asyncio
 from datetime import datetime
 from pyrogram import filters
@@ -6,7 +7,6 @@ from bot import Bot
 from config import BOT_UPTIME_TEXT, USER_REPLY_TEXT
 from helper_func import get_readable_time
 
-
 # ===========================
 # 🔹 UPTIME COMMAND
 # ===========================
@@ -14,7 +14,7 @@ from helper_func import get_readable_time
 async def show_uptime(bot: Bot, message: Message):
     """Show bot's ping and uptime in a simple, realistic format"""
     start_time = time.time()
-    temp_msg = await message.reply_text("**⏱️ Checking system status...**")
+    temp_msg = await message.reply_text("<b><i>⏱️ Checking System Status...</i></b>")
 
     # Wait for 2 second before editing the message
     await asyncio.sleep(2)
@@ -26,17 +26,15 @@ async def show_uptime(bot: Bot, message: Message):
     uptime_str = get_readable_time(delta.seconds)
 
     text = f"""
-<b>🚀 Sʏsᴛᴇᴍ Sᴛᴀᴛᴜs</b>
+<b><i>🏓 System Status !!</i></b>
 
-<b>⚡ Pɪɴɢ:</b> <code>{ping_ms:.2f} ms</code>
-<b>🕒 Uᴘᴛɪᴍᴇ:</b> <code>{uptime_str}</code>
+<b>⏱️ Ping:</b> <code>{ping_ms:.2f} ms</code>
+<b>⏳ Uptime:</b> <code>{uptime_str}</code>
 
-<i>{BOT_UPTIME_TEXT if BOT_UPTIME_TEXT else "Sʏsᴛᴇᴍ sᴛᴀʙʟᴇ ᴀɴᴅ ʀᴜɴɴɪɴɢ sᴍᴏᴏᴛʜʟʏ 💫"}</i>
-
-<b>💜 @NeonFiles</b>
+<b><i>🍕 System Stable and Running Smoothly</i></b>
+<b><i>@NeonFiles</i></b>
 """
     await temp_msg.edit(text)
-
 
 # ===========================
 # 🔹 AUTO REPLY FOR USERS
@@ -46,14 +44,13 @@ async def auto_reply(_, message: Message):
     """Send friendly auto reply to private users"""
     if USER_REPLY_TEXT:
         reply_text = f"""
-👋 <b>Hᴇʏ {message.from_user.first_name}!</b>
+👤 <b><i>Hey {message.from_user.first_name} !!</b>
 
 {USER_REPLY_TEXT}
 
-<i>🤖 ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʏᴏᴜʀ ᴛʀᴜsᴛᴇᴅ ʙᴏᴛ 💜</i>
+<i><b>🎯 Powered By @NeonFiles</b></i>
 """
         await message.reply_text(reply_text)
-
 
 # MyselfNeon
 # Don't Remove Credit 🥺
