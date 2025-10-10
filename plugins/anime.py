@@ -50,7 +50,10 @@ async def send_anime_texts(client: Client, message: Message):
         )
         sent_messages.append(sent_msg)
 
-    # Auto-delete after 5 minutes
+    # ✅ Send sticker after last page
+    await message.reply_sticker("CAACAgUAAxkBAAI6eWjpNJUmsaD6O-PzuDOtGxZDg95lAAJFHAACwutJV4qF4DMw0uAwHgQ")
+
+    # ⏳ Auto-delete after 5 minutes
     await asyncio.sleep(300)
     try:
         for msg in sent_messages:
