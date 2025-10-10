@@ -48,7 +48,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             [
                 [
                     InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ Mᴇ", callback_data="about")
+                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ", callback_data="about")
                 ]
             ]
         )
