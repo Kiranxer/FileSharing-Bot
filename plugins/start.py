@@ -103,7 +103,7 @@ async def start_command(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton("💖 Uᴘᴅᴀᴛᴇs", url="https://t.me/NeonFiles"),
-                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ Mᴇ", callback_data="about")
+                    InlineKeyboardButton("😎 Aʙᴏᴜᴛ", callback_data="about")
                 ]
             ]
         )
@@ -160,7 +160,7 @@ async def not_joined(client: Client, message: Message):
 @Bot.on_message(filters.command("users") & filters.private)
 async def get_users(client: Bot, message: Message):
     msg = await message.reply_text(
-        "⚙️ <b>Pʀᴏᴄᴇssɪɴɢ Yᴏᴜʀ Rᴇǫᴜᴇsᴛ...</b>\n\n🪄 Pʀᴇᴘᴀʀɪɴɢ Usᴇʀ Dᴀᴛᴀ..."
+        "⏳ <b><i>Preparing User Data...</i></b>"
     )
 
     users = await full_userbase()
@@ -168,11 +168,11 @@ async def get_users(client: Bot, message: Message):
 
     await msg.edit(
         f"""
-✨ <b>Usᴇʀ Aɴᴀʟʏᴛɪᴄs Uᴘᴅᴀᴛᴇ</b> ✨
+🌀 <b><i>User Analytics Update</i></b> 🌀
 
-<b>👥 Tᴏᴛᴀʟ Rᴇɢɪsᴛᴇʀᴇᴅ Usᴇʀs:</b> <code>{total}</code>
-<b>🛰 Sʏsᴛᴇᴍ Sᴛᴀᴛᴜs:</b> Aᴄᴛɪᴠᴇ ✅
-<b>🧠 Dᴀᴛᴀ Sᴏᴜʀᴄᴇ:</b> Rᴇᴀʟ-ᴛɪᴍᴇ Dʙ Lᴏᴀᴅ
+<b><i>👥 Total Registered Users:</b> {total}</i>
+<b><i>🛰 System Status:</b> Active</i> ✅
+<b><i>🧠 Data Source:</b> Real Time DB data</i>
 """
     )
 
