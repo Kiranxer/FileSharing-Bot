@@ -219,7 +219,7 @@ async def send_text(client: Bot, message: Message):
 
     else:
         msg = await message.reply(
-            f"<b><i>Usᴇ Tʜɪs Cᴏᴍᴍᴀɴᴅ As ᴀ Rᴇᴘʟʏ ᴛᴏ Aɴʏ Tᴇʟᴇɢʀᴀᴍ Mᴇssᴀɢᴇ Wɪᴛhᴏᴜᴛ Aɴʏ Sᴘᴀᴄᴇs.</i></b>")
+            f"<b><i>Rᴇᴘʟʏ Tᴏ Aɴʏ Mᴇssᴀɢᴇ Aɴᴅ Usᴇ Tʜɪs Cᴏᴍᴍᴀɴᴅ Tᴏ Bʀᴏᴀᴅᴄᴀsᴛ 🔊.</i></b>",quote=True)
         await asyncio.sleep(8)
         await msg.delete()
 
