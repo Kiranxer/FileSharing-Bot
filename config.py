@@ -38,7 +38,7 @@ DISABLE_CHANNEL_BUTTON = True if os.environ.get("DISABLE_CHANNEL_BUTTON", "True"
 
 BOT_UPTIME_TEXT = "<b><i>Bᴏᴛ Uᴘᴛɪᴍᴇ</i> :</b>\n{uptime}"
 
-USER_REPLY_TEXT = "<b><i>Baka !! You are not my Senpai.</i></b>"
+USER_REPLY_TEXT = "<b><i>🧠 Only Elite Senpais get Access.\n🚫 You? Just a Humble Peasant~.</i></b>"
 
 START_MSG = os.environ.get(
     "START_MESSAGE",
