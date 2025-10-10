@@ -6,7 +6,7 @@ from config import ADMINS
 from helper_func import encode, get_message_id
 import asyncio
 
-# ================== Task tracking ================== #
+# Task tracking
 ACTIVE_TASKS = {}
 
 # ================== Batch Command ================== #
@@ -14,7 +14,7 @@ async def batch(client: Client, message: Message):
     while True:
         try:
             first_message = await client.ask(
-                text="<b><i>Fᴏʀᴡᴀʀᴅ Tʜᴇ Fɪʀsᴛ Mᴇssᴀɢᴇ Fʀᴏᴍ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\n\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ</i></b>",
+                text="<b><i>Fᴏʀᴡᴀʀᴅ Tʜᴇ Fɪʀsᴛ Mᴇssᴀɢᴇ Fʀᴏᴍ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ\n\nUsᴇ /cancel ᴛᴏ Cᴀɴᴄᴇʟ Oɴɢᴏɪɴɢ Tᴀsᴋ</i></b>",
                 chat_id=message.from_user.id,
                 filters=((filters.forwarded | (filters.text & ~filters.forwarded)) & ~filters.command("cancel")),
                 timeout=60
@@ -68,7 +68,7 @@ async def link_generator(client: Client, message: Message):
     while True:
         try:
             channel_message = await client.ask(
-                text="<b><i>Fᴏʀᴡᴀʀᴅ Mᴇssᴀɢᴇ Fʀᴏᴍ Tʜᴇ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\n\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ</i></b>",
+                text="<b><i>Fᴏʀᴡᴀʀᴅ Mᴇssᴀɢᴇ Fʀᴏᴍ Tʜᴇ DB Cʜᴀɴɴᴇʟ (Wɪᴛʜ Qᴜᴏᴛᴇs)..\nOʀ Sᴇɴᴅ Tʜᴇ DB Cʜᴀɴɴᴇʟ Pᴏsᴛ Lɪɴᴋ\n\nUsᴇ /cancel ᴛᴏ Cᴀɴᴄᴇʟ Oɴɢᴏɪɴɢ Tᴀsᴋ</i></b>",
                 chat_id=message.from_user.id,
                 filters=((filters.forwarded | (filters.text & ~filters.forwarded)) & ~filters.command("cancel")),
                 timeout=60
