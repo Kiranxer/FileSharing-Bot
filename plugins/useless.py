@@ -32,7 +32,7 @@ async def show_uptime(bot: Bot, message: Message):
 <b><i>⏳ Uptime:</i></b> <code>{uptime_str}</code>
 
 <b><i>🍕 Powered By Vibes & Pizza !!</i></b>
-<b><i>@NeonFiles</i></b>
+<b><i>@MyselfNeon</i></b>
 """
     await temp_msg.edit(text)
 
