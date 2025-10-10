@@ -1,20 +1,18 @@
-# UserID.py
-from pyrogram import filters
+#UserID.py
+from pyrogram import filters, enums
 from pyrogram.types import Message
-from bot import Bot  # your bot instance
+from bot import Bot
 
-@Bot.on_message(filters.command("id"))
-async def user_id(client, message: Message):
-    """
-    Sends the Telegram ID of the user who triggered the command.
-    Works in private and group chats.
-    """
-    user = message.from_user
-    await message.reply_text(
-        f"👤 <b>User:</b> {user.mention}\n"
-        f"🆔 <b>User ID:</b> <code>{user.id}</code>",
-        quote=True
-    )
+@Bot.on_message(filters.command("id") & filters.private)
+async def showid(client, message):
+    chat_type = message.chat.type
+
+    if chat_type == enums.ChatType.PRIVATE:
+        user_id = message.chat.id
+        await message.reply_text(
+            f"<b>__Yᴏᴜʀ Usᴇʀ ID Is__ :</b> <code>{user_id}</code>", 
+            quote=True
+        )        
 
 # MyselfNeon
 # Don't Remove Credit 🥺
