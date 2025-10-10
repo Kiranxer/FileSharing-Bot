@@ -44,11 +44,9 @@ async def auto_reply(_, message: Message):
     """Send friendly auto reply to private users"""
     if USER_REPLY_TEXT:
         reply_text = f"""
-👤 <b><i>Yo, {message.from_user.first_name} There!</b>
+👤 <b><i>Yo, {message.from_user.first_name} there !</i></b>
 
 {USER_REPLY_TEXT}
-
-<i><b>😏 Stay in your lane, Baka !</b></i>
 """
         await message.reply_text(reply_text)
 
