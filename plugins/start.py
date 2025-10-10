@@ -160,8 +160,7 @@ async def not_joined(client: Client, message: Message):
 @Bot.on_message(filters.command("users") & filters.private)
 async def get_users(client: Bot, message: Message):
     msg = await message.reply_text(
-        "⏳ <b><i>Preparing User Data...</i></b>"
-    )
+        "⏳ <b><i>Preparing User Data...</i></b>", quote=True)
 
     users = await full_userbase()
     total = len(users)
