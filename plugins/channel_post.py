@@ -7,7 +7,7 @@ from bot import Bot
 from config import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON
 from helper_func import encode
 
-@Bot.on_message(filters.private & filters.user(ADMINS) & ~filters.command(['start','users','broadcast','batch','genlink','uptime','anime','cancel']))
+@Bot.on_message(filters.private & filters.user(ADMINS) & ~filters.command(['start','users','broadcast','batch','genlink','uptime','anime']))
 async def channel_post(client: Client, message: Message):
     # Only process if the message contains a file; ignore plain texts
     if not (message.document or message.video or message.audio or message.voice or message.video_note or message.photo or message.animation or message.sticker):
