@@ -174,3 +174,7 @@ class script(object):
     "📌 Wrong way to use Healing Magic"
     ]
     
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles
