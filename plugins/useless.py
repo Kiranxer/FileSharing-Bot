@@ -31,7 +31,7 @@ async def show_uptime(bot: Bot, message: Message):
 <b><i>⏱️ Ping:</i></b> <code>{ping_ms:.2f} ms</code>
 <b><i>⏳ Uptime:</i></b> <code>{uptime_str}</code>
 
-<b><i>🍕 System Stable and Running Smoothly</i></b>
+<b><i>🍕 Powered By Vibes & Pizza !!</i></b>
 <b><i>@NeonFiles</i></b>
 """
     await temp_msg.edit(text)
