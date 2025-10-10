@@ -14,7 +14,7 @@ from helper_func import get_readable_time
 async def show_uptime(bot: Bot, message: Message):
     """Show bot's ping and uptime in a simple, realistic format"""
     start_time = time.time()
-    temp_msg = await message.reply_text("<b><i>⏱️ Checking System...</i></b>")
+    temp_msg = await message.reply_text("<b><i>⏱️ Checking System...</i></b>",quote=True)
 
     # Wait for 1 second before editing the message
     await asyncio.sleep(1)
