@@ -157,12 +157,24 @@ async def not_joined(client: Client, message: Message):
 
 
 # ------------------ /users command ------------------
-@Bot.on_message(filters.command('users') & filters.private)
+@Bot.on_message(filters.command("users") & filters.private)
 async def get_users(client: Bot, message: Message):
-    msg = await client.send_message(chat_id=message.chat.id, text=f"Pʀᴏᴄᴇssɪɴɢ...☢️")
-    users = await full_userbase()
-    await msg.edit(f"{len(users)} <b><i>Usᴇʀs Aʀᴇ Usɪɴɢ Tʜɪs Bᴏᴛ</i></b>")
+    msg = await message.reply_text(
+        "⚙️ <b>Pʀᴏᴄᴇssɪɴɢ Yᴏᴜʀ Rᴇǫᴜᴇsᴛ...</b>\n\n🪄 Pʀᴇᴘᴀʀɪɴɢ Usᴇʀ Dᴀᴛᴀ..."
+    )
 
+    users = await full_userbase()
+    total = len(users)
+
+    await msg.edit(
+        f"""
+✨ <b>Usᴇʀ Aɴᴀʟʏᴛɪᴄs Uᴘᴅᴀᴛᴇ</b> ✨
+
+<b>👥 Tᴏᴛᴀʟ Rᴇɢɪsᴛᴇʀᴇᴅ Usᴇʀs:</b> <code>{total}</code>
+<b>🛰 Sʏsᴛᴇᴍ Sᴛᴀᴛᴜs:</b> Aᴄᴛɪᴠᴇ ✅
+<b>🧠 Dᴀᴛᴀ Sᴏᴜʀᴄᴇ:</b> Rᴇᴀʟ-ᴛɪᴍᴇ Dʙ Lᴏᴀᴅ
+"""
+    )
 
 # ------------------ /broadcast command ------------------
 @Bot.on_message(filters.private & filters.command('broadcast') & filters.user(ADMINS))
