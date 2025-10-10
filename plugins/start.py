@@ -187,7 +187,7 @@ async def send_text(client: Bot, message: Message):
         deleted = 0
         unsuccessful = 0
 
-        pls_wait = await message.reply("<i><b>📢 Bʀᴏᴀᴅᴄᴀsᴛɪɴɢ Mᴇssᴀɢᴇs... \nTʜɪs Wɪʟʟ Tᴀᴋᴇ Sᴏᴍᴇ Tɪᴍᴇ</b></i>")
+        pls_wait = await message.reply("<i><b>⏰ Bʀᴏᴀᴅᴄᴀsᴛɪɴɢ Yᴏᴜʀ Mᴇssᴀɢᴇs Nᴏᴡ...</b></i>",quote=True)
         for chat_id in query:
             try:
                 await broadcast_msg.copy(chat_id)
@@ -207,13 +207,13 @@ async def send_text(client: Bot, message: Message):
                 pass
             total += 1
 
-        status = f"""<b><u><i>Bʀᴏᴀᴅᴄᴀsᴛ Cᴏᴍᴘʟᴇᴛᴇᴅ</i></u></b>
+        status = f"""<b><u><i>🎯 Bʀᴏᴀᴅᴄᴀsᴛ Cᴏᴍᴘʟᴇᴛᴇᴅ</i></u></b>
 
-<b><i>Tᴏᴛᴀʟ ᴜsᴇʀs</i> : <code>{total}</code></b>
-<b><i>Sᴜᴄᴄᴇssғᴜʟ</i> : <code>{successful}</code></b>
-<b><i>Bʟᴏᴄᴋᴇᴅ Usᴇʀs</i> : <code>{blocked}</code></b>
-<b><i>Dᴇʟᴇᴛᴇᴅ Aᴄᴄᴏᴜɴᴛs</i> : <code>{deleted}</code></b>
-<b><i>Uɴsᴜᴄᴄᴇssғᴜʟ</i> : <code>{unsuccessful}</code></b>"""
+<b><i>👥 Tᴏᴛᴀʟ ᴜsᴇʀs</i> : <code>{total}</code></b>
+<b><i>✅ Sᴜᴄᴄᴇssғᴜʟ</i> : <code>{successful}</code></b>
+<b><i>🚫 Bʟᴏᴄᴋᴇᴅ Usᴇʀs</i> : <code>{blocked}</code></b>
+<b><i>🚮 Dᴇʟᴇᴛᴇᴅ Aᴄᴄᴏᴜɴᴛs</i> : <code>{deleted}</code></b>
+<b><i>☢️ Uɴsᴜᴄᴄᴇssғᴜʟ</i> : <code>{unsuccessful}</code></b>"""
 
         return await pls_wait.edit(status)
 
