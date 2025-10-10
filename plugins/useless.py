@@ -6,7 +6,7 @@ from config import ADMINS, BOT_UPTIME_TEXT, USER_REPLY_TEXT
 from helper_func import get_readable_time
 
 # ---------------------- UPTIME COMMAND ----------------------
-@Bot.on_message(filters.command("uptime") & filters.user(ADMINS))
+@Bot.on_message(filters.command("uptime"))
 async def show_uptime(bot: Bot, message: Message):
     """Show bot's uptime in a sleek format"""
     now = datetime.now()
