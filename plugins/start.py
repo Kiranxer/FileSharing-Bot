@@ -90,6 +90,13 @@ async def start_command(client: Client, message: Message):
             except:
                 pass
 
+        # 🔹 Send sticker after sending all files
+        try:
+            await client.send_sticker(chat_id=message.from_user.id,
+                                      sticker="CAACAgUAAxkBAAI6eWjpNJUmsaD6O-PzuDOtGxZDg95lAAJFHAACwutJV4qF4DMw0uAwHgQ")
+        except:
+            pass
+
         k = await client.send_message(chat_id=message.from_user.id,
                                       text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n"
                                            f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
@@ -120,7 +127,6 @@ async def start_command(client: Client, message: Message):
             quote=True
         )
         return
-
 
 # ------------------ /start command for users not joined ------------------
 @Bot.on_message(filters.command('start') & filters.private)
@@ -154,7 +160,6 @@ async def not_joined(client: Client, message: Message):
         quote=True,
         disable_web_page_preview=True
     )
-
 
 # ------------------ /users command ------------------
 @Bot.on_message(filters.command("users") & filters.private)
@@ -223,7 +228,6 @@ async def send_text(client: Bot, message: Message):
         await asyncio.sleep(8)
         await msg.delete()
 
-
 # ------------------ Function to handle file deletion ------------------
 async def delete_files(messages, client, k):
     await asyncio.sleep(FILE_AUTO_DELETE)  # Wait for the duration specified in config.py
@@ -237,4 +241,3 @@ async def delete_files(messages, client, k):
 # MyselfNeon
 # Don't Remove Credit 🥺
 # Telegram Channel @NeonFiles
-                
