@@ -17,31 +17,15 @@ madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
 file_auto_delete = humanize.naturaldelta(jishudeveloper)
 
-# ------------------ Active task tracker ------------------
-active_tasks = {}  # user_id : asyncio.Task
-
 # ------------------ /start command for subscribed users ------------------
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
-    user_id = message.from_user.id
-
-    # Cancel previous task if it exists
-    if user_id in active_tasks:
-        old_task = active_tasks[user_id]
-        if not old_task.done():
-            old_task.cancel()
-            # Notify user that old link stopped
-            temp_msg = await message.reply("<b><i>⚠️ Previous link stopped ✅</i></b>")
-            await asyncio.sleep(5)
-            await temp_msg.delete()
-        active_tasks.pop(user_id)
-
-    if not await present_user(user_id):
+    id = message.from_user.id
+    if not await present_user(id):
         try:
-            await add_user(user_id)
+            await add_user(id)
         except:
             pass
-
     text = message.text
     if len(text) > 7:
         try:
@@ -71,9 +55,7 @@ async def start_command(client: Client, message: Message):
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
             except:
                 return
-
         temp_msg = await message.reply("<b><i>Pʟᴇᴀsᴇ Wᴀɪᴛ...⚡</i></b>")
-
         try:
             messages = await get_messages(client, ids)
         except:
@@ -81,59 +63,41 @@ async def start_command(client: Client, message: Message):
             return
         await temp_msg.delete()
 
-        # ------------------ Sending task ------------------
-        async def send_files():
-            madflix_msgs = []
-            for msg in messages:
-                if bool(CUSTOM_CAPTION) and bool(msg.document):
-                    caption = CUSTOM_CAPTION.format(
-                        previouscaption="" if not msg.caption else msg.caption.html,
-                        filename=msg.document.file_name
-                    )
-                else:
-                    caption = "" if not msg.caption else msg.caption.html
+        madflix_msgs = []  # List to keep track of sent messages
 
-                reply_markup = None if DISABLE_CHANNEL_BUTTON else msg.reply_markup
+        for msg in messages:
+            if bool(CUSTOM_CAPTION) & bool(msg.document):
+                caption = CUSTOM_CAPTION.format(previouscaption="" if not msg.caption else msg.caption.html,
+                                                filename=msg.document.file_name)
+            else:
+                caption = "" if not msg.caption else msg.caption.html
 
-                try:
-                    madflix_msg = await msg.copy(
-                        chat_id=user_id,
-                        caption=caption,
-                        parse_mode=ParseMode.HTML,
-                        reply_markup=reply_markup,
-                        protect_content=PROTECT_CONTENT
-                    )
-                    madflix_msgs.append(madflix_msg)
-                except FloodWait as e:
-                    await asyncio.sleep(e.x)
-                    madflix_msg = await msg.copy(
-                        chat_id=user_id,
-                        caption=caption,
-                        parse_mode=ParseMode.HTML,
-                        reply_markup=reply_markup,
-                        protect_content=PROTECT_CONTENT
-                    )
-                    madflix_msgs.append(madflix_msg)
-                except asyncio.CancelledError:
-                    await message.reply("<b><i>⚠️ Download stopped ✅</i></b>")
-                    return
-                except:
-                    pass
+            if DISABLE_CHANNEL_BUTTON:
+                reply_markup = msg.reply_markup
+            else:
+                reply_markup = None
 
-            k = await client.send_message(
-                chat_id=user_id,
-                text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n"
-                     f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issues).\n\n"
-                     f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>"
-            )
+            try:
+                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
+                                             reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
+                madflix_msgs.append(madflix_msg)
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
+                                             parse_mode=ParseMode.HTML, reply_markup=reply_markup,
+                                             protect_content=PROTECT_CONTENT)
+                madflix_msgs.append(madflix_msg)
+            except:
+                pass
 
-            await delete_files(madflix_msgs, client, k)
+        k = await client.send_message(chat_id=message.from_user.id,
+                                      text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n"
+                                           f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
+                                           f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>")
 
-        # Start new task and track it
-        task = asyncio.create_task(send_files())
-        active_tasks[user_id] = task
+        # Schedule the file deletion
+        asyncio.create_task(delete_files(madflix_msgs, client, k))
         return
-
     else:
         reply_markup = InlineKeyboardMarkup(
             [
@@ -156,6 +120,7 @@ async def start_command(client: Client, message: Message):
             quote=True
         )
         return
+
 
 # ------------------ /start command for users not joined ------------------
 @Bot.on_message(filters.command('start') & filters.private)
@@ -268,3 +233,8 @@ async def delete_files(messages, client, k):
         except Exception as e:
             print(f"Tʜᴇ Aᴛᴛᴇᴍᴘᴛ ᴛᴏ Dᴇʟᴇᴛᴇ Tʜᴇ Mᴇᴅɪᴀ {msg.id} Wᴀs Uɴsᴜᴄᴄᴇssғᴜʟ: {e}")
     await k.edit_text("<b><i>Yᴏᴜʀ Vɪᴅᴇᴏ / Fɪʟᴇ ɪs Sᴜᴄᴄᴇssғᴜʟʟʏ Dᴇʟᴇᴛᴇᴅ ✅</i></b>")
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles
+                
