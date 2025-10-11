@@ -14,10 +14,34 @@ from config import (
 )
 import pyrogram.utils
 import pyrogram  # ✅ For version info
+import asyncio   # ✅ Added for async sleep
 
 pyrogram.utils.MIN_CHANNEL_ID = -1009999999999
 
 IST = timezone(timedelta(hours=5, minutes=30))
+
+
+# =======================
+# ⚙️ Global Cooldown Setup
+# =======================
+_last_command_time = {}  # user_id: datetime
+
+
+async def command_cooldown(client, message, cooldown_time=2):
+    """Prevent spam: enforces a cooldown between commands per user"""
+    user_id = message.from_user.id
+    now = datetime.now()
+
+    if user_id in _last_command_time:
+        diff = (now - _last_command_time[user_id]).total_seconds()
+        if diff < cooldown_time:
+            await message.reply_text(
+                f"⚠️ Easy there! Wait {round(cooldown_time - diff, 1)}s before next command 😅"
+            )
+            return False
+
+    _last_command_time[user_id] = now
+    return True
 
 
 def get_all_plugins(path="plugins"):
@@ -85,7 +109,7 @@ class Bot(Client):
         now = datetime.now(IST)
         restart_text = (
             f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
-            f"<i><b>- {bot_mention}</i></b> \n\n"   # <-- changed here
+            f"<i><b>- {bot_mention}</i></b> \n\n"
             f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
             f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>\n"
             f"**- __@neonfiles__**"
@@ -108,6 +132,10 @@ class Bot(Client):
 # 🔹 Log New Users
 @Bot.on_message(filters.command("start") & filters.private)
 async def log_new_user(client: Bot, message: Message):
+    # ✅ Apply cooldown (2s gap)
+    if not await command_cooldown(client, message):
+        return
+
     user = message.from_user
     bot_mention = f"@{client.username}"  # ✅ Added bot mention here
     log_text = (
@@ -119,7 +147,6 @@ async def log_new_user(client: Bot, message: Message):
     )
     await client.send_message(LOG_CHANNEL, log_text)
     await message.reply_text("👋 Hello! You started the bot ✅")
-    
 
 # MyselfNeon
 # Don't Remove Credit 🥺
