@@ -13,6 +13,8 @@ async def send_anime_texts(client: Client, message: Message):
     pages = []
     current_page = []
 
+    total_animes = len(script.NEON_TXT)  # ✅ Count total animes dynamically
+
     for entry in script.NEON_TXT:
         # Convert plain text to clickable HTML link
         if " - " in entry:
@@ -37,7 +39,7 @@ async def send_anime_texts(client: Client, message: Message):
     for idx, page_links in enumerate(pages):
         if idx == 0:
             page_text = (
-                "<b><i>😎 Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n"
+                f"<b><i>😎 {total_animes} Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n"
                 + "\n".join(page_links)
             )
         else:
