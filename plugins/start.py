@@ -1,5 +1,5 @@
 # start.py
-import os, asyncio, humanize
+import os, asyncio, humanize, time
 from pyrogram import Client, filters, __version__
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
@@ -17,15 +17,29 @@ madflixofficials = FILE_AUTO_DELETE
 jishudeveloper = madflixofficials
 file_auto_delete = humanize.naturaldelta(jishudeveloper)
 
+# Cooldown tracker for clicks
+click_timestamps = {}
+
 # ------------------ /start command for subscribed users ------------------
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
     id = message.from_user.id
+
+    # 5 sec cooldown between clicks
+    now = time.time()
+    if id in click_timestamps and now - click_timestamps[id] < 5:
+        remaining = round(5 - (now - click_timestamps[id]), 1)
+        return await message.reply_text(
+            f"<b><i>⚠️ Wait {remaining}s before requesting again, senpai 😅</i></b>"
+        )
+    click_timestamps[id] = now
+
     if not await present_user(id):
         try:
             await add_user(id)
         except:
             pass
+
     text = message.text
     if len(text) > 7:
         try:
@@ -34,6 +48,7 @@ async def start_command(client: Client, message: Message):
             return
         string = await decode(base64_string)
         argument = string.split("-")
+
         if len(argument) == 3:
             try:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
@@ -55,6 +70,7 @@ async def start_command(client: Client, message: Message):
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
             except:
                 return
+
         temp_msg = await message.reply("<b><i>Pʟᴇᴀsᴇ Wᴀɪᴛ...⚡</i></b>")
         try:
             messages = await get_messages(client, ids)
@@ -78,26 +94,40 @@ async def start_command(client: Client, message: Message):
                 reply_markup = None
 
             try:
-                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
-                                             reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
+                madflix_msg = await msg.copy(
+                    chat_id=message.from_user.id,
+                    caption=caption,
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=reply_markup,
+                    protect_content=PROTECT_CONTENT
+                )
                 madflix_msgs.append(madflix_msg)
+                await asyncio.sleep(0.7)  # 0.7 sec delay between files
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
-                                             parse_mode=ParseMode.HTML, reply_markup=reply_markup,
-                                             protect_content=PROTECT_CONTENT)
+                madflix_msg = await msg.copy(
+                    chat_id=message.from_user.id,
+                    caption=caption,
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=reply_markup,
+                    protect_content=PROTECT_CONTENT
+                )
                 madflix_msgs.append(madflix_msg)
+                await asyncio.sleep(0.7)
             except:
                 pass
 
-        k = await client.send_message(chat_id=message.from_user.id,
-                                      text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n"
-                                           f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
-                                           f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>")
+        k = await client.send_message(
+            chat_id=message.from_user.id,
+            text=f"<b>❗️ <u><i>Iᴍᴘᴏʀᴛᴀɴᴛ</i></u> ❗️</b>\n\n"
+                 f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
+                 f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>"
+        )
 
         # Schedule the file deletion
         asyncio.create_task(delete_files(madflix_msgs, client, k))
         return
+
     else:
         reply_markup = InlineKeyboardMarkup(
             [
@@ -175,6 +205,7 @@ async def get_users(client: Bot, message: Message):
 """
     )
 
+
 # ------------------ /broadcast command ------------------
 @Bot.on_message(filters.private & filters.command('broadcast') & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
@@ -187,7 +218,7 @@ async def send_text(client: Bot, message: Message):
         deleted = 0
         unsuccessful = 0
 
-        pls_wait = await message.reply("<i><b>⏰ Bʀᴏᴀᴅᴄᴀsᴛɪɴɢ Yᴏᴜʀ Mᴇssᴀɢᴇs</b></i>",quote=True)
+        pls_wait = await message.reply("<i><b>⏰ Bʀᴏᴀᴅᴄᴀsᴛɪɴɢ Yᴏᴜʀ Mᴇssᴀɢᴇs</b></i>", quote=True)
         for chat_id in query:
             try:
                 await broadcast_msg.copy(chat_id)
@@ -219,14 +250,14 @@ async def send_text(client: Bot, message: Message):
 
     else:
         msg = await message.reply(
-            f"<b><i>Rᴇᴘʟʏ Tᴏ Aɴʏ Mᴇssᴀɢᴇ Aɴᴅ Usᴇ Tʜɪs Cᴏᴍᴍᴀɴᴅ Tᴏ Bʀᴏᴀᴅᴄᴀsᴛ 🔊.</i></b>",quote=True)
+            f"<b><i>Rᴇᴘʟʏ Tᴏ Aɴʏ Mᴇssᴀɢᴇ Aɴᴅ Usᴇ Tʜɪs Cᴏᴍᴍᴀɴᴅ Tᴏ Bʀᴏᴀᴅᴄᴀsᴛ 🔊.</i></b>", quote=True)
         await asyncio.sleep(8)
         await msg.delete()
 
 
 # ------------------ Function to handle file deletion ------------------
 async def delete_files(messages, client, k):
-    await asyncio.sleep(FILE_AUTO_DELETE)  # Wait for the duration specified in config.py
+    await asyncio.sleep(FILE_AUTO_DELETE)
     for msg in messages:
         try:
             await client.delete_messages(chat_id=msg.chat.id, message_ids=[msg.id])
