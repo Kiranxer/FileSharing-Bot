@@ -71,7 +71,6 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         except:
             pass
 
-
 # MyselfNeon
 # Don't Remove Credit 🥺
 # Telegram Channel @NeonFiles
