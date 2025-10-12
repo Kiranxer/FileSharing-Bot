@@ -68,13 +68,13 @@ _**Watch on Telegram as [FileStore-Bot](https://t.me/neonfilesbot)**_
 ### _Commands_
 
 ```
-start - Start the Bot or get posts
-batch - Create link for more than one Posts
-genlink - Create link for one Post
-id - To check user id
-users - View bot statistics
-broadcast - Broadcast any messages to Bot Users
-stats - Check your Bot uptime
+start - 𝑆𝑡𝑎𝑟𝑡 𝑇ℎ𝑒 𝐵𝑜𝑡 𝑜𝑟 𝐺𝑒𝑡 𝑃𝑜𝑠𝑡(𝑠)
+anime - 𝐷𝑖𝑣𝑒 𝑖𝑛𝑡𝑜 𝐴𝑛𝑖𝑚𝑒 𝑊𝑜𝑟𝑙𝑑
+genlink - 𝐶𝑟𝑒𝑎𝑡𝑒 𝐿𝑖𝑛𝑘 𝑓𝑜𝑟 𝑂𝑛𝑒 𝑃𝑜𝑠𝑡
+batch - 𝐶𝑟𝑒𝑎𝑡𝑒 𝐿𝑖𝑛𝑘 𝑓𝑜𝑟 𝑀𝑢𝑙𝑡𝑖𝑝𝑙𝑒 𝑃𝑜𝑠𝑡𝑠
+uptime - 𝐶ℎ𝑒𝑐𝑘 𝐵𝑜𝑡 𝑈𝑝𝑡𝑖𝑚𝑒
+users - 𝐺𝑒𝑡 𝐵𝑜𝑡 𝑆𝑡𝑎𝑡𝑖𝑠𝑡𝑖𝑐𝑠
+broadcast - 𝐵𝑟𝑜𝑎𝑑𝑐𝑎𝑠𝑡 𝑀𝑒𝑠𝑠𝑎𝑔𝑒𝑠 𝑡𝑜 𝑈𝑠𝑒𝑟𝑠
 ```
 
 <h3><i>Contact Developer 👨‍💻</i></h3>
