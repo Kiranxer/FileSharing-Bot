@@ -19,13 +19,13 @@ _**Watch on Telegram as [FileStore-Bot](https://t.me/neonfilesbot)**_
 - Auto Delete Added
 - Developer Service 24x7
 - Multiple Posts in One Link
-- Customisable Welcome and Force Subscribe messages
+- Customisable Welcome and Force Subscribe Messages
 </b></i>
 
 ### _Setup_
 <b><i>
-- Add the Bot to Database Channel with all permission
-- Add bot to ForceSub channel as Admin with Invite Users via Link Permission if you enabled ForceSub
+- Add the Bot to Database Channel with all Permission
+- Add bot to ForceSub Channel as Admin with Invite Users via Link Permission if you Enabled ForceSub
 </b></i>
 
 ### _Config Variables_
@@ -79,6 +79,5 @@ broadcast - 𝐵𝑟𝑜𝑎𝑑𝑐𝑎𝑠𝑡 𝑀𝑒𝑠𝑠𝑎𝑔𝑒�
 
 <h3><i>Contact Developer 👨‍💻</i></h3>
 
-[![Contact Developer](https://img.shields.io/badge/Contact-Developer-blue?logo=telegram)](https://t.me/MyselfNeon)    
-[![Telegram Channel](https://img.shields.io/badge/Telegram-Main%20Channel-blue?logo=telegram)](https://t.me/neonfiles)  
-_**Join My <a href='https://t.me/neonfiles'>Update Channel</a> For More Update Regarding Repo.**_
+[![Contact Developer](https://img.shields.io/badge/Contact-Developer-blue?logo=telegram)](https://t.me/MyselfNeon)      
+_**Join My <a href='https://t.me/neonfiles'>Update Channel</a> For More Update Regarding Repo.**_ 🤌❤️
