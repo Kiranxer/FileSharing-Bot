@@ -1,3 +1,4 @@
+#Database.py
 import pymongo, os
 from config import DB_URL, DB_NAME
 
@@ -27,7 +28,6 @@ async def full_userbase():
 async def del_user(user_id: int):
     user_data.delete_one({'_id': user_id})
     return
-
 
 # MyselfNeon
 # Don't Remove Credit 🥺
