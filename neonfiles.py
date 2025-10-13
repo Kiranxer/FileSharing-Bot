@@ -99,7 +99,7 @@ class script(object):
     "📌 Re Monster - https://t.me/NeonFilesBot?start=Z2V0LTg3MjE2NDQyNTM1OTY3MC04ODUxOTY3NjczNDc4MDM",
     "📌 Record of Grancrest War - https://t.me/NeonFilesBot?start=Z2V0LTIxNTAzMzY0MjgwNDE5NDUtMjE3",
     "📌 Reborn as a Vending Machine - https://t.me/NeonFilesBot?start=Z2V0LTI1MjYyNjkzNzAwMDczMjAtMjU0MDMwNDE5OTg0MDY5NA",
-    "📌 Redo of Healer - https://t.me/NeonFilesBot?start=Z2V0LTEwMDI0ODc4NDUyNDEwMDAtMTAxNTUyMDE4NzIyOTEzMw",
+    "📌 Redo of Healer - https://t.me/NeonFilesBot?start=cmdldC0xMDAyNDg3ODQ1MjQxMDAwLTEwMTU1MjAxODcyMjkxMzM",
     "📌 Reincarnated as a Sword - https://t.me/NeonFilesBot?start=Z2V0LTg0NDA5NDc2NTY5MjkyMi04NTcxMjcxMDc2ODEwNTU",
     "📌 Reincarnated as Slime S01 - https://t.me/NeonFilesBot?start=Z2V0LTU5MTQ2NzgyODY5MjE5MC02MTY1MzAwMjQ4MjMyMTU",
     "📌 Reincarnated as Slime S02 - https://t.me/NeonFilesBot?start=Z2V0LTYxNzUzMjUxMjY2ODQ1Ni02NDM1OTcxOTY2NDQ3MjI",
