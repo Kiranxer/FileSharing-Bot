@@ -19,6 +19,7 @@ _**Watch on Telegram as [FileStore-Bot](https://t.me/neonfilesbot)**_
 - Auto Delete Added
 - Developer Service 24x7
 - Multiple Posts in One Link
+- Create Links with Restrictions
 - Customisable Welcome and Force Subscribe Messages
 </b></i>
 
