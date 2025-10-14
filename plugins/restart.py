@@ -1,4 +1,4 @@
-# Restart_Plugin.py
+# restart_plugin.py
 import os
 import sys
 import asyncio
@@ -18,7 +18,6 @@ def track_task(task: asyncio.Task):
 
 @Bot.on_message(filters.command("restart") & filters.user(MYSELFNEON))
 async def restart_bot(client, message):
-    # Send initial message
     msg = await message.reply_text("♻️ Restart initiated...\n\nStarting process:")
 
     steps = [
@@ -40,41 +39,36 @@ async def restart_bot(client, message):
             for file in os.listdir(folder):
                 try:
                     os.remove(os.path.join(folder, file))
-                except Exception:
+                except:
                     pass
     await asyncio.sleep(1)
 
     await msg.edit_text(f"♻️ Restart initiated...\n\n{steps[2]}")
     await asyncio.sleep(0.5)
 
-    # Save chat ID and message ID to notify after restart
+    # Save chat ID for post-restart message
     with open(RESTART_FLAG_FILE, "w") as f:
-        f.write(f"{message.chat.id}\n{message.message_id}")
+        f.write(str(message.chat.id))
 
-    # Delete the current progress message
+    # Delete the progress message
     try:
         await msg.delete()
     except:
         pass
 
-    # Restart
+    # Restart the bot
     os.execv(sys.executable, [sys.executable] + sys.argv)
 
-# === After bot starts, notify if restarted ===
-@Bot.on_message(filters.private & filters.user(MYSELFNEON))
-async def post_restart_notice(client, message):
+# --- This runs once at startup, outside of any message handler ---
+async def notify_restart():
     if os.path.exists(RESTART_FLAG_FILE):
         with open(RESTART_FLAG_FILE, "r") as f:
-            chat_id, _ = f.read().split("\n")
+            chat_id = int(f.read().strip())
         try:
-            await client.send_message(
-                int(chat_id),
-                "✅ Bot Restarted Successfully!"
-            )
+            await Bot.send_message(chat_id, "✅ Bot Restarted Successfully!")
         except:
             pass
         os.remove(RESTART_FLAG_FILE)
 
-# MyselfNeon
-# Don't Remove Credit 🥺
-# Telegram Channel @NeonFiles
+# Schedule this at startup
+asyncio.create_task(notify_restart())
