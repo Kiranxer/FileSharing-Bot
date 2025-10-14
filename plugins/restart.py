@@ -19,7 +19,7 @@ def track_task(task: asyncio.Task):
 @Bot.on_message(filters.command("restart") & filters.user(MYSELFNEON))
 async def restart_bot(client, message):
     # Send initial message
-    msg = await message.reply_text("♻️ Restart initiated...\n\nStarting process:")
+    msg = await message.reply_text("♻️ Restart initiated...\n\nStarting process:",quote=True)
 
     steps = [
         "⏳ Cancelling all ongoing tasks...",
@@ -48,7 +48,7 @@ async def restart_bot(client, message):
 
     # Step 3: Restart bot
     await msg.edit_text(f"♻️ Restart initiated...\n\n{steps[2]}")
-    await asyncio.sleep(0.5)
+    await asyncio.sleep(1)
 
     # ✅ Delete the message before restarting
     try:
