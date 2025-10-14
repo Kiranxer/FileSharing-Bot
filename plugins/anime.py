@@ -39,7 +39,7 @@ async def send_anime_texts(client: Client, message: Message):
     for idx, page_links in enumerate(pages):
         if idx == 0:
             page_text = (
-                f"<b><i>😎 {total_animes} Total Animes at @NeonFiles.\n❤️ Owner / Manager - @MyselfNeon.</i></b>\n\n"
+                f'<b><i>🍿 {total_animes} Total Animes at <a href="https://t.me/NeonFiles">NeonFiles</a>\n🔰 Managed by <a href="tg://user?id=841851780">MyselfNeon</a></i></b>\n\n'
                 + "\n".join(page_links)
             )
         else:
