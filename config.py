@@ -66,6 +66,8 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
 
+# Keep-Alive URL
+KEEP_ALIVE_URL = environ.get("KEEP_ALIVE_URL", "https://filestore-bot-x4iy.onrender.com/")  # <-- Add this line
 
 # MyselfNeon
 # Don't Remove Credit 🥺
