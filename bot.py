@@ -39,7 +39,7 @@ def get_all_plugins(path="plugins"):
     return plugins_dict
 
 async def keep_alive():
-    """Send a request every 100 seconds to keep the bot alive (if required)."""
+    """Send a request every 300 seconds to keep the bot alive (if required)."""
     async with aiohttp.ClientSession() as session:
         while True:
             try:
@@ -47,7 +47,7 @@ async def keep_alive():
                 logging.info("Sent keep-alive request.")
             except Exception as e:
                 logging.error(f"Keep-alive request failed: {e}")
-            await asyncio.sleep(100)
+            await asyncio.sleep(300)
 
 class Bot(Client):
     def __init__(self):
