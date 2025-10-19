@@ -1,16 +1,19 @@
 # Bot.py
 import os
+import sys
+import asyncio
+import logging
+import aiohttp
 from aiohttp import web
 from plugins import web_server
 import pyromod.listen
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, BotCommand
-import sys
 from datetime import datetime, timedelta, timezone
 from config import (
     API_HASH, API_ID, BOT_TOKEN, TG_BOT_WORKERS,
-    FORCE_SUB_CHANNEL, CHANNEL_ID, PORT, LOG_CHANNEL
+    FORCE_SUB_CHANNEL, CHANNEL_ID, PORT, LOG_CHANNEL, KEEP_ALIVE_URL
 )
 import pyrogram.utils
 import pyrogram  # ✅ For version info
@@ -18,7 +21,6 @@ import pyrogram  # ✅ For version info
 pyrogram.utils.MIN_CHANNEL_ID = -1009999999999
 
 IST = timezone(timedelta(hours=5, minutes=30))
-
 
 def get_all_plugins(path="plugins"):
     """
@@ -36,6 +38,16 @@ def get_all_plugins(path="plugins"):
                 plugins_dict[module_path] = {}
     return plugins_dict
 
+async def keep_alive():
+    """Send a request every 100 seconds to keep the bot alive (if required)."""
+    async with aiohttp.ClientSession() as session:
+        while True:
+            try:
+                await session.get(KEEP_ALIVE_URL)
+                logging.info("Sent keep-alive request.")
+            except Exception as e:
+                logging.error(f"Keep-alive request failed: {e}")
+            await asyncio.sleep(100)
 
 class Bot(Client):
     def __init__(self):
@@ -85,7 +97,7 @@ class Bot(Client):
         now = datetime.now(IST)
         restart_text = (
             f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
-            f"<i><b>- {bot_mention}</i></b> \n\n"   # <-- changed here
+            f"<i><b>- {bot_mention}</i></b> \n\n"
             f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
             f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>\n"
             f"**- __@neonfiles__**"
@@ -100,10 +112,13 @@ class Bot(Client):
         bind_address = "0.0.0.0"
         await web.TCPSite(app, bind_address, PORT).start()
 
+        # ✅ Start keep-alive loop in background
+        if KEEP_ALIVE_URL:
+            asyncio.create_task(keep_alive())
+
     async def stop(self, *args):
         await super().stop()
         await self.send_message(LOG_CHANNEL, "❌ Bot Stopped!")
-
 
 # 🔹 Log New Users
 @Bot.on_message(filters.command("start") & filters.private)
