@@ -23,9 +23,9 @@ from database.database import add_user, del_user, full_userbase, present_user
 
 from neonfiles import script
 
-madflixofficials = FILE_AUTO_DELETE
-jishudeveloper = madflixofficials
-file_auto_delete = humanize.naturaldelta(jishudeveloper)
+neonfiles = FILE_AUTO_DELETE
+myselfneon = neonfiles
+file_auto_delete = humanize.naturaldelta(myselfneon)
 
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
