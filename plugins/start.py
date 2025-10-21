@@ -75,7 +75,7 @@ async def start_command(client: Client, message: Message):
                 return
             await temp_msg.delete()
 
-            madflix_msgs = []
+            neon_msgs = []
 
             for msg in messages:
                 if bool(CUSTOM_CAPTION) & bool(msg.document):
@@ -90,15 +90,15 @@ async def start_command(client: Client, message: Message):
                     reply_markup = None
 
                 try:
-                    madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
+                    neon_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
                                                  reply_markup=reply_markup, protect_content=True)
-                    madflix_msgs.append(madflix_msg)
+                    neon_msgs.append(neon_msg)
                 except FloodWait as e:
                     await asyncio.sleep(e.x)
-                    madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
+                    neon_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
                                                  parse_mode=ParseMode.HTML, reply_markup=reply_markup,
                                                  protect_content=True)
-                    madflix_msgs.append(madflix_msg)
+                    neon_msgs.append(neon_msg)
                 except:
                     pass
 
@@ -113,7 +113,7 @@ async def start_command(client: Client, message: Message):
                                                f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
                                                f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>")
 
-            asyncio.create_task(delete_files(madflix_msgs, client, k))
+            asyncio.create_task(delete_files(neon_msgs, client, k))
             return
 
         elif len(argument) == 3:
@@ -145,7 +145,7 @@ async def start_command(client: Client, message: Message):
             return
         await temp_msg.delete()
 
-        madflix_msgs = []
+        neon_msgs = []
 
         for msg in messages:
             if bool(CUSTOM_CAPTION) & bool(msg.document):
@@ -160,15 +160,15 @@ async def start_command(client: Client, message: Message):
                 reply_markup = None
 
             try:
-                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
+                neon_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML,
                                              reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
-                madflix_msgs.append(madflix_msg)
+                neon_msgs.append(neon_msg)
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                madflix_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
+                neon_msg = await msg.copy(chat_id=message.from_user.id, caption=caption,
                                              parse_mode=ParseMode.HTML, reply_markup=reply_markup,
                                              protect_content=PROTECT_CONTENT)
-                madflix_msgs.append(madflix_msg)
+                neon_msgs.append(neon_msg)
             except:
                 pass
 
@@ -183,7 +183,7 @@ async def start_command(client: Client, message: Message):
                                            f"<b><i>💢 Fɪʟᴇs Wɪʟʟ ʙᴇ Dᴇʟᴇᴛᴇᴅ ɪɴ {file_auto_delete} (Dᴜᴇ ᴛᴏ Cᴏᴘʏʀɪɢʜᴛ Issᴜᴇs).\n\n"
                                            f"💢 Sᴀᴠᴇ Tʜᴇsᴇ Fɪʟᴇs ᴛᴏ ʏᴏᴜʀ Sᴀᴠᴇᴅ Mᴇssᴀɢᴇs Aɴᴅ Dᴏᴡɴʟᴏᴀᴅ Tʜᴇʀᴇ 📂</i></b>")
 
-        asyncio.create_task(delete_files(madflix_msgs, client, k))
+        asyncio.create_task(delete_files(neon_msgs, client, k))
         return
     else:
         reply_markup = InlineKeyboardMarkup(
