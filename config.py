@@ -1,9 +1,21 @@
+# ---------------------------------------------------
+# File Name: Config.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 import os
 import logging
 
 # --- Bot Credentials --- #
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-API_ID = int(os.environ.get("API_ID", "0"))
+API_ID = int(os.environ.get("API_ID", ""))
 API_HASH = os.environ.get("API_HASH", "")
 
 OWNER_ID = int(os.environ.get("OWNER_ID", "841851780"))
@@ -65,6 +77,7 @@ def LOGGER(name: str) -> logging.Logger:
 
 # --- Keep-Alive URL --- #
 KEEP_ALIVE_URL = os.environ.get("KEEP_ALIVE_URL", "https://filestore-bot-x4iy.onrender.com/")
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺

@@ -1,3 +1,15 @@
+# ---------------------------------------------------
+# File Name: NeonFiles.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 class script(object):
     # Plain text with names and URLs
     NEON_TXT = [

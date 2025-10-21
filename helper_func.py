@@ -1,4 +1,15 @@
-#Helper_Function.py
+# ---------------------------------------------------
+# File Name: Helper_Function.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 import base64
 import re
 import asyncio
@@ -106,6 +117,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 subscribed = filters.create(is_subscribed)
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺
