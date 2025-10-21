@@ -1,4 +1,15 @@
-# Anime.py
+# ---------------------------------------------------
+# File Name: Anime.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
@@ -62,6 +73,7 @@ async def send_anime_texts(client: Client, message: Message):
             await msg.delete()
     except Exception as e:
         print(f"**__Auto-Delete Failed:** {e}__")
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺

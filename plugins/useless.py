@@ -1,4 +1,15 @@
-#Uptime+Ping.py
+# ---------------------------------------------------
+# File Name: Uptime+Ping.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 import time, asyncio
 from datetime import datetime
 from pyrogram import filters
@@ -49,6 +60,7 @@ async def auto_reply(_, message: Message):
 {USER_REPLY_TEXT}
 """
         await message.reply_text(reply_text)
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺

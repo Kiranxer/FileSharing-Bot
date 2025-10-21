@@ -1,4 +1,15 @@
-# restart_plugin.py
+# ---------------------------------------------------
+# File Name: Restart.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 import os
 import sys
 import asyncio
@@ -58,3 +69,8 @@ async def restart_bot(client, message):
 
     # Hard restart
     os.execv(sys.executable, [sys.executable] + sys.argv)
+
+
+# MyselfNeon
+# Don't Remove Credit 🥺
+# Telegram Channel @NeonFiles

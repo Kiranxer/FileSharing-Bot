@@ -1,4 +1,15 @@
-#Route.py
+# ---------------------------------------------------
+# File Name: Route.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 from aiohttp import web
 routes = web.RouteTableDef()
 
@@ -30,6 +41,7 @@ async def web_server():
     web_app = web.Application(client_max_size=30000000)
     web_app.add_routes(routes)
     return web_app
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺

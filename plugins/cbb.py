@@ -1,4 +1,15 @@
-# Cbb.py
+# ---------------------------------------------------
+# File Name: Cbb.py
+# Author: NeonAnurag
+# GitHub: https://github.com/MyselfNeon/
+# Telegram: https://t.me/MyelfNeon
+# YouTube: https://youtube.com/@MyselfNeon
+# Created: 2025-10-21
+# Last Modified: 2025-10-22
+# Version: Latest
+# License: MIT License
+# ---------------------------------------------------
+
 from pyrogram import __version__
 from bot import Bot
 from config import OWNER_ID, START_MSG
@@ -70,6 +81,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             await query.message.reply_to_message.delete()
         except:
             pass
+
 
 # MyselfNeon
 # Don't Remove Credit 🥺
