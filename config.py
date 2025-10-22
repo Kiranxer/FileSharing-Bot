@@ -20,7 +20,7 @@ API_HASH = os.environ.get("API_HASH", "")
 
 OWNER_ID = int(os.environ.get("OWNER_ID", "841851780"))
 DB_URL = os.environ.get("DB_URL", "")
-DB_NAME = os.environ.get("DB_NAME", "FilesStoreNeon")
+DB_NAME = os.environ.get("DB_NAME", "FileStoreNeon")
 
 LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001889915480"))
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002487845241"))
