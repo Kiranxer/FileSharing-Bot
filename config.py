@@ -76,7 +76,7 @@ def LOGGER(name: str) -> logging.Logger:
 
 
 # --- Keep-Alive URL --- #
-KEEP_ALIVE_URL = os.environ.get("KEEP_ALIVE_URL", "https://filestore-bot-x4iy.onrender.com/")
+KEEP_ALIVE_URL = os.environ.get("KEEP_ALIVE_URL", "")
 
 
 # MyselfNeon
