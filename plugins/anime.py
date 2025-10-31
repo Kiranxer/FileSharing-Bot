@@ -19,8 +19,8 @@ from neonfiles import script
 
 @Bot.on_message(filters.command('anime') & filters.private)
 async def send_anime_texts(client: Client, message: Message):
-    max_lines_per_page = 45
-    max_chars_per_page = 5000
+    max_lines_per_page = 40
+    max_chars_per_page = 3800
     pages = []
     current_page = []
 
