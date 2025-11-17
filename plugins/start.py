@@ -29,6 +29,12 @@ file_auto_delete = humanize.naturaldelta(myselfneon)
 
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
+    m = await message.reply_sticker(
+        "CAACAgUAAxkBAAEKVaxlCWGs1Ri6ti45xliLiUeweCnu4AACBAADwSQxMYnlHW4Ls8gQMAQ"
+    )
+    await asyncio.sleep(1)
+    await m.delete()
+    
     id = message.from_user.id
     if not await present_user(id):
         try:
@@ -253,8 +259,8 @@ async def get_users(client: Bot, message: Message):
 🌀 <b><i>User Analytics Update</i></b> 🌀
 
 <b><i>👥 Total Registered Users:</b> {total}</i>
-<b><i>🛰 System Status:</b> Active</i> ✅
-<b><i>🧠 Data Source:</b> Real Time DB data</i>
+<b><i>🛰 System Status:</i></b> Active</i> ✅
+<b><i>🧠 Data Source:</i></b> Real Time DB data</i>
 """
     )
 
