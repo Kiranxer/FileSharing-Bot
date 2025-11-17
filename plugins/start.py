@@ -30,7 +30,7 @@ file_auto_delete = humanize.naturaldelta(myselfneon)
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
     m = await message.reply_sticker(
-        "CAACAgUAAxkBAAEKVaxlCWGs1Ri6ti45xliLiUeweCnu4AACBAADwSQxMYnlHW4Ls8gQMAQ"
+        "CAACAgIAAxkBAAJFc2kay8JakLOlF1gkz92DQmfYqDI0AAKOFQACJU3BSY8WTX7r0TbzHgQ"
     )
     await asyncio.sleep(1)
     await m.delete()
