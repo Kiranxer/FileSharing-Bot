@@ -37,7 +37,7 @@ _**Watch on Telegram as [FileStore-Bot](https://t.me/neonfilesbot)**_
 * [`API_HASH`] - _**From <a href='https://my.telegram.org/'>Telegram Auth**_</a>
 * [`BOT_TOKEN`] - _**From <a href='https://t.me/botfather'>BotFather**_</a>
 * [`DB_URL`] - _**Your<a href='https://cloud.mongodb.com/'> MongoDB Url**_</a>
-* [`DB_NAME`] - _**Your <a href='https://cloud.mongodb.com/'>MongoDB database Name**_</a>
+* [`DB_NAME`] - _**Your <a href='https://cloud.mongodb.com/'>MongoDB Name**_</a>
 * [`OWNER_ID`] _**Your Telegram Id**_
 * [`FILE_AUTO_DELETE`] _**File Auto Delete, value in seconds**_
 * [`CHANNEL_ID`] _**Your DataBase Channel ID**_
