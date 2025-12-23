@@ -138,13 +138,19 @@ class Bot(Client):
 @Bot.on_message(filters.command("start") & filters.private)
 async def log_new_user(client: Bot, message: Message):
     user = message.from_user
-    bot_mention = f"@{client.username}"  # ✅ Added bot mention here
+    
+    # Get current time in IST for the log
+    now = datetime.now(IST)
+    date = now.strftime("%d/%m/%y")
+    time = now.strftime("%I:%M.%S %p") # ✅ Format: 01:37.08 PM
+
     log_text = (
-        f"**#𝖭𝖾𝗐𝖴𝗌𝖾𝗋 👤**\n"
-        f"__{bot_mention}__\n\n"
-        f"**🆔 __User ID :__** <code>{user.id}</code>\n"
-        f"**👤 __Username :__** __@{user.username if user.username else 'None'}__\n"
-        f"**🖇️ __User Link :__** __{user.mention}__"
+        f"**⌬ #NewUser 🆕👤** \n"
+        f"**┟ Bot:** __@{client.username}__\n"
+        f"**┟ User:** __{user.mention}__\n"
+        f"**┟ User ID:** <code>{user.id}</code>\n"
+        f"**┟ Date:** __{date}__\n"
+        f"**┖ Time:** __{time}__"
     )
     await client.send_message(LOG_CHANNEL, log_text)
     await message.reply_text("👋 Hello! You started the bot ✅")
