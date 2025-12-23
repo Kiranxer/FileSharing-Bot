@@ -145,7 +145,7 @@ async def log_new_user(client: Bot, message: Message):
     time = now.strftime("%I:%M.%S %p") # ✅ Format: 01:37.08 PM
 
     log_text = (
-        f"**⌬ #NewUser 🆕👤** \n"
+        f"**⌬ 🆕👤 #NewUser** \n"
         f"**┟ Bot:** __@{client.username}__\n"
         f"**┟ User:** __{user.mention}__\n"
         f"**┟ User ID:** <code>{user.id}</code>\n"
