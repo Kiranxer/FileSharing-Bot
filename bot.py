@@ -106,12 +106,15 @@ class Bot(Client):
 
         # Bot Restart Log
         now = datetime.now(IST)
+        date = now.strftime("%d/%m/%y")
+        time = now.strftime("%I:%M:%S %p")
         restart_text = (
-            f"<b>🤖 <i>Bot Deployed / Restarted ♻️</b></i>\n"
-            f"<i><b>- {bot_mention}</i></b> \n\n"
-            f"<b><i>- Date :</b> {now.strftime('%d-%b-%Y')}</i>\n"
-            f"<b><i>- Time :</b> {now.strftime('%I:%M %p')}</i>\n"
-            f"**- __@neonfiles__**"
+            f"**⌬ Restarted Successfully !**\n"
+            f"**┟ Bot:** __@{self.username}__\n"
+            f"**┟ Date:** __{date}__\n"
+            f"**┠ Time:** __{time}__\n"
+            f"**┠ TimeZone:** __Asia/Kolkata__\n"
+            f"**┖ Version:** __v3.0.8-x__"
         )
         await self.send_message(LOG_CHANNEL, restart_text)
 
